@@ -77,6 +77,25 @@
             gap: 10px;
         }
 
+        .floating-menu-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gold-metallic);
+            color: var(--navy-deep);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 4000;
+            font-size: 24px;
+            border: none;
+        }
+
         .btn {
             background: var(--gold-metallic);
             color: var(--navy-deep);
@@ -88,7 +107,10 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: transform 0.2s;
         }
+
+        .btn:hover { transform: translateY(-2px); }
 
         .btn.secondary {
             background: var(--navy-royal);
@@ -101,22 +123,65 @@
             top: 80px;
             right: 20px;
             z-index: 1000;
-            width: 320px;
+            width: 350px;
+            max-height: calc(100vh - 120px);
             background: var(--navy-royal);
             border: 2px solid var(--gold-primary);
             border-radius: 14px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-            padding: 16px;
+            padding: 20px;
             display: grid;
             gap: 12px;
+            overflow-y: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-panel.hidden {
+            transform: translateX(120%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
         }
 
         .menu-title {
             color: var(--gold-bright);
             font-weight: 800;
-            font-size: 12px;
+            font-size: 13px;
             letter-spacing: 3px;
             text-transform: uppercase;
+        }
+
+        .menu-tabs {
+            display: flex;
+            background: #0f2340;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: #cbd5e0;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--gold-primary);
+            color: var(--navy-deep);
         }
 
         .menu-group {
@@ -144,14 +209,132 @@
             letter-spacing: 0.5px;
         }
 
+        .menu-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(201,162,39,0.4);
+            background: #0f2340;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            resize: vertical;
+        }
+
         .menu-actions {
             display: flex;
             gap: 10px;
-            margin-top: 6px;
+            margin-top: 10px;
         }
 
+        .tab-content { display: none; }
+        .tab-content.active { display: grid; gap: 12px; }
+
         @media print {
-            .controls, .menu-panel, .loading-overlay { display: none !important; }
+            .controls, .menu-panel, .loading-overlay, .floating-menu-toggle, .help-modal { display: none !important; }
+        }
+
+        /* Help Modal */
+        .help-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 12, 27, 0.85);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .help-content {
+            background: var(--navy-royal);
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            color: #e2e8f0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .help-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--gold-bright);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .help-title {
+            color: var(--gold-bright);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold-primary);
+            padding-bottom: 10px;
+        }
+
+        .help-section {
+            margin-bottom: 25px;
+        }
+
+        .help-section h3 {
+            color: var(--gold-primary);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-section h3::before {
+            content: '✦';
+            font-size: 12px;
+        }
+
+        .help-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #cbd5e0;
+            margin-bottom: 10px;
+        }
+
+        .help-section ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .help-section li {
+            font-size: 13px;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            color: #cbd5e0;
+        }
+
+        .help-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold-primary);
+        }
+
+        .help-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(201, 162, 39, 0.2);
         }
 
         /* Pages Container */
@@ -606,6 +789,31 @@
             opacity: 0.4;
         }
 
+        .signature-wrap {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            page-break-inside: avoid;
+        }
+
+        .signature-img {
+            max-width: 180px;
+            max-height: 90px;
+            object-fit: contain;
+            filter: contrast(1.1) brightness(1.05);
+        }
+
+        .signature-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* ===== FOOTER (All Pages) ===== */
         .footer-main {
             position: relative;
@@ -762,37 +970,57 @@
             
             .controls {
                 position: fixed;
-                top: auto;
-                bottom: 20px;
+                top: 20px;
                 right: 20px;
-                flex-direction: column-reverse;
+                flex-direction: column;
                 z-index: 3000;
+            }
+
+            .floating-menu-toggle {
+                display: flex;
             }
             
             .menu-panel {
-                position: relative;
-                top: 0;
-                right: 0;
-                width: 100%;
+                position: fixed;
+                top: auto;
+                bottom: 90px;
+                right: 20px;
+                width: calc(100% - 40px);
                 max-width: 400px;
-                margin-bottom: 20px;
+                margin-bottom: 0;
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
             }
 
             .pages-wrapper {
                 width: 100%;
                 overflow-x: auto;
-                align-items: center; /* Center if possible, but scroll if not */
-                padding-bottom: 80px; /* Space for fixed controls */
+                align-items: center; 
+                padding-top: 60px;
+                padding-bottom: 100px;
                 -webkit-overflow-scrolling: touch;
             }
             
             .a4-page {
-                /* STRICTLY enforce A4 size. 
-                   Do NOT allow flexbox to shrink it. */
                 min-width: 210mm; 
                 min-height: 297mm;
                 flex-shrink: 0;
                 margin-bottom: 20px;
+                transform: scale(0.45);
+                transform-origin: top center;
+                margin-bottom: -160mm; /* Pull up following content due to scaling */
+            }
+
+            .page-label {
+                margin-top: 10px;
+            }
+
+            .help-content {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .help-title {
+                font-size: 24px;
             }
         }
     </style>
@@ -805,30 +1033,123 @@
         <p id="loadingText">Processing Document...</p>
     </div>
 
+    <button class="floating-menu-toggle" id="menuToggle" onclick="toggleMenu()">
+        <span>☰</span>
+    </button>
+
     <div class="controls">
-        <button class="btn" onclick="printPDF()">Print to PDF</button>
-        <button class="btn secondary" onclick="window.print()">Browser Print</button>
+        <button class="btn secondary" onclick="toggleHelp()">How to Use</button>
+        <button class="btn" onclick="printPDF()">Print PDF</button>
+        <button class="btn secondary" onclick="window.print()">Print View</button>
     </div>
+
     <div id="menu-panel" class="menu-panel">
-        <div class="menu-title">Document Menu</div>
+        <div class="menu-header">
+            <div class="menu-title">Document Engine</div>
+            <button class="btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleMenu()">Close</button>
+        </div>
+
+        <div class="menu-tabs">
+            <button class="tab-btn active" onclick="switchTab('file')">File Upload</button>
+            <button class="tab-btn" onclick="switchTab('manual')">Manual Input</button>
+        </div>
+
+        <div id="file-tab" class="tab-content active">
+            <div class="menu-group">
+                <label for="docxFile">Select .docx / .pdf</label>
+                <input id="docxFile" type="file" accept=".docx, .pdf" class="menu-input" />
+            </div>
+            <div class="menu-group">
+                <label for="subjectInput">Subject Override</label>
+                <input id="subjectInput" class="menu-input" placeholder="Optional" />
+            </div>
+        </div>
+
+        <div id="manual-tab" class="tab-content">
+            <div class="menu-group">
+                <label for="recipientInput">Recipient (To:)</label>
+                <input id="recipientInput" class="menu-input" placeholder="e.g. The Manager, ..." />
+            </div>
+            <div class="menu-group">
+                <label for="salutationInput">Salutation (Dear:)</label>
+                <input id="salutationInput" class="menu-input" placeholder="e.g. Dear Sir," />
+            </div>
+            <div class="menu-group">
+                <label for="manualSubject">Subject Line</label>
+                <input id="manualSubject" class="menu-input" placeholder="e.g. APPLICATION FOR..." />
+            </div>
+            <div class="menu-group">
+                <label for="bodyInput">Letter Body</label>
+                <div style="font-size: 8px; color: #718096; margin-bottom: 4px;">Use **bold** and *italic* for formatting.</div>
+                <textarea id="bodyInput" class="menu-textarea" placeholder="Paste your content here..."></textarea>
+            </div>
+            <div class="menu-group">
+                <label for="signatureInput">Upload Signature (Optional)</label>
+                <input id="signatureInput" type="file" accept="image/*" class="menu-input" />
+            </div>
+        </div>
+
         <div class="menu-group">
             <label for="refInput">Reference Number</label>
             <input id="refInput" class="menu-input" placeholder="SFD/____/2026" />
         </div>
         <div class="menu-group">
-            <label for="dateInput">Date</label>
+            <label for="dateInput">Issue Date</label>
             <input id="dateInput" type="date" class="menu-input" />
         </div>
-        <div class="menu-group">
-            <label for="subjectInput">Subject (override)</label>
-            <input id="subjectInput" class="menu-input" placeholder="Optional subject override" />
-        </div>
-        <div class="menu-group">
-            <label for="docxFile">Import .docx / .pdf</label>
-            <input id="docxFile" type="file" accept=".docx, .pdf" class="menu-input" />
-        </div>
+
         <div class="menu-actions">
-            <button id="processBtn" class="btn">Process & Print</button>
+            <button id="processBtn" class="btn" style="flex: 2;">Process & Preview</button>
+            <button class="btn secondary" style="flex: 1;" onclick="resetDocument(); toggleMenu();">Clear</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-content">
+            <button class="help-close" onclick="toggleHelp()">×</button>
+            <h2 class="help-title">How to Use the Engine</h2>
+            
+            <div class="help-section">
+                <h3>1. Choose Your Input Mode</h3>
+                <p>Select either <strong>File Upload</strong> or <strong>Manual Input</strong> from the tabs in the Document Menu.</p>
+                <ul>
+                    <li><strong>File Upload:</strong> Best for existing .docx or .pdf documents. The engine will extract text and headings automatically.</li>
+                    <li><strong>Manual Input:</strong> Perfect for typing or pasting letters from scratch.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>2. Professional Formatting</h3>
+                <p>In Manual Mode, you can use simple shortcuts to style your letter body:</p>
+                <ul>
+                    <li>Use <strong>**text**</strong> for <strong>bold text</strong>.</li>
+                    <li>Use <strong>*text*</strong> for <em>italic text</em>.</li>
+                    <li>Lines starting with "To:", "Dear", or "Attention:" are automatically bolded.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>3. Signatures & Metadata</h3>
+                <ul>
+                    <li><strong>Reference Number:</strong> Enter your official document reference (e.g., SFD/001/2026).</li>
+                    <li><strong>Issue Date:</strong> Select the date to appear on the letterhead.</li>
+                    <li><strong>Signature:</strong> Upload a photo or scan of your signature to place it at the end of the document.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>4. Processing & Export</h3>
+                <p>Click <strong>Process & Preview</strong> to generate your multi-page letterhead. Once satisfied:</p>
+                <ul>
+                    <li>Click <strong>Print PDF</strong> to download a high-quality PDF with a subject-based filename.</li>
+                    <li>Click <strong>Print View</strong> to use your browser's standard print dialog.</li>
+                </ul>
+            </div>
+
+            <div class="help-footer">
+                <button class="btn" onclick="toggleHelp()">Got it!</button>
+            </div>
         </div>
     </div>
 
@@ -1044,6 +1365,86 @@
         const processBtn = document.getElementById('processBtn');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
+        const menuPanel = document.getElementById('menu-panel');
+        const signatureInput = document.getElementById('signatureInput');
+        const helpModal = document.getElementById('helpModal');
+
+        let currentTab = 'file';
+        let currentDocumentSubject = 'Skillforge_Document';
+
+        function toggleHelp() {
+            const isVisible = helpModal.style.display === 'flex';
+            helpModal.style.display = isVisible ? 'none' : 'flex';
+        }
+
+        function createSignatureElement(imgSrc) {
+            const wrap = document.createElement('div');
+            wrap.className = 'signature-wrap';
+            
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.className = 'signature-img';
+            
+            const name = document.createElement('div');
+            name.className = 'signature-name';
+            name.textContent = 'Authorized Signature';
+            
+            wrap.appendChild(img);
+            wrap.appendChild(name);
+            return wrap;
+        }
+
+        // Draft Persistence
+        function saveDraft() {
+            const draft = {
+                recipient: document.getElementById('recipientInput').value,
+                salutation: document.getElementById('salutationInput').value,
+                subject: document.getElementById('manualSubject').value,
+                body: document.getElementById('bodyInput').value,
+                ref: document.getElementById('refInput').value,
+                date: document.getElementById('dateInput').value,
+                tab: currentTab
+            };
+            localStorage.setItem('skillforge_draft', JSON.stringify(draft));
+        }
+
+        function loadDraft() {
+            const draftStr = localStorage.getItem('skillforge_draft');
+            if (!draftStr) return;
+            const draft = JSON.parse(draftStr);
+            document.getElementById('recipientInput').value = draft.recipient || '';
+            document.getElementById('salutationInput').value = draft.salutation || '';
+            document.getElementById('manualSubject').value = draft.subject || '';
+            document.getElementById('bodyInput').value = draft.body || '';
+            document.getElementById('refInput').value = draft.ref || '';
+            document.getElementById('dateInput').value = draft.date || '';
+            if (draft.tab) switchTab(draft.tab);
+        }
+
+        // Auto-save on input
+        ['recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 'refInput', 'dateInput'].forEach(id => {
+            document.getElementById(id).addEventListener('input', saveDraft);
+        });
+
+        window.addEventListener('load', loadDraft);
+
+        function toggleMenu() {
+            menuPanel.classList.toggle('hidden');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tab === 'file') {
+                document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+                document.getElementById('file-tab').classList.add('active');
+            } else {
+                document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+                document.getElementById('manual-tab').classList.add('active');
+            }
+        }
 
         function showLoading(text) {
             loadingText.textContent = text;
@@ -1079,6 +1480,7 @@
         }
 
         function resetDocument() {
+            localStorage.removeItem('skillforge_draft');
             const wrapper = document.querySelector('.pages-wrapper');
             const allPages = Array.from(wrapper.querySelectorAll('.a4-page'));
             const allLabels = Array.from(wrapper.querySelectorAll('.page-label'));
@@ -1088,6 +1490,12 @@
 
             document.querySelector('#page-1 .content-zone').innerHTML = '<div class="margin-line"></div>';
             document.querySelector('#page-2 .content-zone-mini').innerHTML = '<div class="margin-line"></div>';
+            
+            // Clear manual inputs
+            ['recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 'refInput', 'dateInput', 'subjectInput'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
         }
 
         function createContinuationPage(pageNumber) {
@@ -1114,139 +1522,127 @@
         }
 
         function getAvailableHeight(container) {
-            // Deterministic A4 Constants (96 DPI)
-            // Page 1: Header(280) + Footer(170) + Meta(85) + Padding(40) = 575. Remaining: 548
-            // Page 2+: Header(120) + Footer(170) + ContBar(55) + Padding(20) = 365. Remaining: 758
             const isPage1 = container.closest('#page-1') !== null;
-            return isPage1 ? 520 : 730; // Using conservative values for safety
+            return isPage1 ? 520 : 730; 
         }
 
-        function createStyledP(text, isSubject = false) {
+        function createStyledElement(content, type = 'p') {
+            const el = document.createElement(type);
+            el.style.fontFamily = 'Cormorant Garamond, serif';
+            el.style.color = 'var(--navy-royal)';
+            el.style.textAlign = 'justify';
+            el.style.fontSize = '18px';
+            el.style.fontWeight = '500';
+            el.style.lineHeight = '1.6';
+            el.style.marginBottom = '14px';
+            el.style.wordBreak = 'break-word';
+            el.style.hyphens = 'auto';
+
+            // Support for basic bold/italic formatting (manual input)
+            let formattedContent = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            const cleanText = formattedContent.replace(/<\/?[^>]+(>|$)/g, "").trim().toLowerCase();
+
+            if (type === 'h1' || type === 'h2' || type === 'h3' || type === 'h4') {
+                el.style.fontWeight = '700';
+                el.style.color = 'var(--navy-deep)';
+                el.style.marginBottom = '18px';
+                el.style.textAlign = 'left';
+            }
+
+            // Detection for Recipient, Salutation, and Lists
+            if (cleanText.startsWith('dear') || cleanText.startsWith('to:') || cleanText.startsWith('attention:')) {
+                el.style.fontWeight = '700';
+                el.style.marginBottom = '20px';
+                el.style.textAlign = 'left';
+            }
+
+            // Simple List detection for manual input
+            if (cleanText.startsWith('•') || cleanText.startsWith('-') || /^\d+\./.test(cleanText)) {
+                el.style.paddingLeft = '25px';
+                el.style.position = 'relative';
+                el.style.textAlign = 'left';
+            }
+
+            el.innerHTML = formattedContent;
+            return el;
+        }
+
+        function createSubjectLine(text) {
             const p = document.createElement('p');
+            p.className = 'underline';
             p.style.fontFamily = 'Cormorant Garamond, serif';
             p.style.color = 'var(--navy-royal)';
-            p.style.textAlign = 'justify';
-            
-            if (isSubject) {
-                p.className = 'underline';
-                p.style.fontSize = '19px';
-                p.style.lineHeight = '1.6';
-                p.style.marginBottom = '24px';
-                p.style.fontWeight = '700';
-                p.style.textAlign = 'left';
-                p.style.borderBottom = '2px solid var(--gold-primary)';
-                p.style.paddingBottom = '8px';
-                p.style.textDecoration = 'none';
-            } else {
-                p.style.fontSize = '18px';
-                p.style.fontWeight = '500';
-                p.style.lineHeight = '1.6';
-                p.style.marginBottom = '14px';
-                p.style.wordBreak = 'break-word';
-                p.style.hyphens = 'auto';
-            }
+            p.style.fontSize = '19px';
+            p.style.lineHeight = '1.6';
+            p.style.marginBottom = '24px';
+            p.style.fontWeight = '700';
+            p.style.textAlign = 'left';
+            p.style.borderBottom = '2px solid var(--gold-primary)';
+            p.style.paddingBottom = '8px';
             p.textContent = text;
             return p;
         }
 
-        async function paginateContent(paragraphs, skipIndex, subjectText) {
+        async function paginateContent(elements) {
             let pageNum = 1;
             let container = document.querySelector('#page-1 .content-zone');
             
-            if (subjectText) {
-                const subP = createStyledP(subjectText, true);
-                container.appendChild(subP);
-            }
+            for (let el of elements) {
+                container.appendChild(el);
 
-            for (let i = 0; i < paragraphs.length; i++) {
-                if (i === skipIndex) continue;
-                const text = paragraphs[i].trim();
-                if (!text) continue;
-
-                const p = createStyledP(text);
-                container.appendChild(p);
-
-                // Check overflow against deterministic height
                 if (container.scrollHeight > getAvailableHeight(container)) {
-                    container.removeChild(p);
+                    container.removeChild(el);
                     
-                    const words = text.split(' ');
-                    let currentPara = createStyledP('');
-                    container.appendChild(currentPara);
-                    
-                    for (let word of words) {
-                        const prevText = currentPara.textContent;
-                        currentPara.textContent += (prevText ? ' ' : '') + word;
+                    // If it's a paragraph, we split it word by word
+                    if (el.tagName.toLowerCase() === 'p') {
+                        const words = el.textContent.split(' ');
+                        let currentPara = createStyledElement('', 'p');
+                        container.appendChild(currentPara);
                         
-                        if (container.scrollHeight > getAvailableHeight(container)) {
-                            currentPara.textContent = prevText;
-                            pageNum++;
+                        for (let word of words) {
+                            const prevText = currentPara.textContent;
+                            currentPara.textContent += (prevText ? ' ' : '') + word;
                             
-                            if (pageNum === 2) {
-                                container = document.querySelector('#page-2 .content-zone-mini');
-                            } else {
-                                const newPage = createContinuationPage(pageNum);
-                                container = newPage.querySelector('.content-zone-mini');
+                            if (container.scrollHeight > getAvailableHeight(container)) {
+                                currentPara.textContent = prevText;
+                                pageNum++;
+                                
+                                if (pageNum === 2) {
+                                    container = document.querySelector('#page-2 .content-zone-mini');
+                                } else {
+                                    const newPage = createContinuationPage(pageNum);
+                                    container = newPage.querySelector('.content-zone-mini');
+                                }
+                                
+                                currentPara = createStyledElement(word, 'p');
+                                container.appendChild(currentPara);
                             }
-                            
-                            currentPara = createStyledP(word);
-                            container.appendChild(currentPara);
                         }
+                    } else {
+                        // For non-p elements, move the whole thing to next page
+                        pageNum++;
+                        if (pageNum === 2) {
+                            container = document.querySelector('#page-2 .content-zone-mini');
+                        } else {
+                            const newPage = createContinuationPage(pageNum);
+                            container = newPage.querySelector('.content-zone-mini');
+                        }
+                        container.appendChild(el);
                     }
                 }
             }
         }
 
-        async function parsePdfToParagraphs(arrayBuffer) {
-            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
-            const pdf = await loadingTask.promise;
-            let paragraphs = [];
-
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                const page = await pdf.getPage(pageNum);
-                const textContent = await page.getTextContent();
-                
-                // Collect lines
-                let lastY = -1;
-                let currentLine = "";
-                
-                // Simple line grouping by Y-coordinate
-                const items = textContent.items.sort((a, b) => b.transform[5] - a.transform[5]); // Sort by Y (top to bottom)
-
-                items.forEach(item => {
-                    const str = item.str.trim();
-                    if (!str) return;
-                    
-                    // Simple heuristic: if Y differs significantly, new line/paragraph
-                    // In PDF.js, transform[5] is the Y translation
-                    const y = item.transform[5];
-                    
-                    if (lastY !== -1 && Math.abs(y - lastY) > 5) {
-                        if (currentLine) paragraphs.push(currentLine);
-                        currentLine = str;
-                    } else {
-                        currentLine += (currentLine ? " " : "") + str;
-                    }
-                    lastY = y;
-                });
-                if (currentLine) paragraphs.push(currentLine);
-            }
-            return paragraphs;
-        }
-
         async function processAndPrint() {
-            const file = docxFileInput.files[0];
-            if (!file) {
-                alert('Please select a file first (.docx or .pdf).');
-                return;
-            }
-
-            showLoading('Extracting Document...');
+            showLoading('Preparing Document...');
 
             try {
                 let ref = refInput.value.trim();
                 if (!ref) {
-                    ref = prompt('Please enter the Reference Number:', 'SFD/____/2026');
+                    ref = prompt('Reference Number:', 'SFD/____/2026');
                     if (ref) refInput.value = ref;
                 }
 
@@ -1254,67 +1650,138 @@
                 document.getElementById('ref-number').textContent = ref || 'SFD/____/2026';
                 document.getElementById('issue-date').textContent = getMenuDate();
 
-                const arrayBuffer = await file.arrayBuffer();
-                let paragraphs = [];
+                let finalElements = [];
+                const subjectOverride = subjectInput.value.trim();
 
-                if (file.name.toLowerCase().endsWith('.pdf')) {
-                    paragraphs = await parsePdfToParagraphs(arrayBuffer);
-                } else {
-                    const result = await mammoth.convertToHtml({ arrayBuffer });
+                if (currentTab === 'file') {
+                    const file = docxFileInput.files[0];
+                    if (!file) throw new Error('Please select a file.');
                     
-                    // Robust extraction logic (Index F style)
-                    const tmp = document.createElement('div');
-                    tmp.innerHTML = result.value;
-                    paragraphs = Array.from(tmp.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6'))
-                        .map(n => (n.textContent || '').trim())
-                        .filter(t => t);
-                }
+                    currentDocumentSubject = subjectOverride || file.name.split('.')[0];
 
-                if (paragraphs.length === 0) {
-                    throw new Error('No text content found in document.');
-                }
-
-                let subjectText = '';
-                let skipIndex = -1;
-                const manualSubject = subjectInput.value.trim();
-
-                if (manualSubject) {
-                    subjectText = manualSubject;
-                } else {
-                    for (let i = 0; i < Math.min(paragraphs.length, 5); i++) {
-                        if (isAllCapsLine(paragraphs[i])) {
-                            subjectText = paragraphs[i];
-                            skipIndex = i;
-                            break;
+                    const arrayBuffer = await file.arrayBuffer();
+                    if (file.name.toLowerCase().endsWith('.pdf')) {
+                        const paragraphs = await parsePdfToParagraphs(arrayBuffer);
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
                         }
+                        paragraphs.forEach(p => finalElements.push(createStyledElement(p)));
+                    } else {
+                        const result = await mammoth.convertToHtml({ arrayBuffer });
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = result.value;
+                        
+                        const nodes = Array.from(tmp.children);
+                        let foundSubject = false;
+                        
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                            foundSubject = true;
+                        }
+
+                        nodes.forEach(node => {
+                            const text = node.textContent.trim();
+                            if (!text) return;
+
+                            if (isAllCapsLine(text)) {
+                                if (!foundSubject) {
+                                    finalElements.push(createSubjectLine(text));
+                                    currentDocumentSubject = text;
+                                    foundSubject = true;
+                                }
+                            } else {
+                                finalElements.push(createStyledElement(node.innerHTML, node.tagName.toLowerCase()));
+                            }
+                        });
                     }
-                    if (!subjectText && paragraphs.length > 0) {
-                        subjectText = paragraphs[0];
-                        skipIndex = 0;
+                } else {
+                    // Manual Input
+                    const to = document.getElementById('recipientInput').value.trim();
+                    const dear = document.getElementById('salutationInput').value.trim();
+                    const sub = document.getElementById('manualSubject').value.trim();
+                    const body = document.getElementById('bodyInput').value.trim();
+
+                    currentDocumentSubject = sub || 'Skillforge_Document';
+
+                    if (to) finalElements.push(createStyledElement('To: ' + to));
+                    if (dear) finalElements.push(createStyledElement(dear));
+                    if (sub) finalElements.push(createSubjectLine(sub));
+                    
+                    if (body) {
+                        body.split('\n').filter(p => p.trim()).forEach(p => {
+                            finalElements.push(createStyledElement(p.trim()));
+                        });
                     }
                 }
 
-                showLoading('Generating Pages...');
-                await paginateContent(paragraphs, skipIndex, subjectText);
-                
-                hideLoading();
-                setTimeout(() => {
-                    window.print();
-                }, 500);
+                if (finalElements.length === 0) throw new Error('No content detected.');
 
+                // Add Signature if present
+                if (signatureInput.files[0]) {
+                    const reader = new FileReader();
+                    const sigPromise = new Promise(resolve => {
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(signatureInput.files[0]);
+                    });
+                    const sigSrc = await sigPromise;
+                    finalElements.push(createSignatureElement(sigSrc));
+                }
+
+                showLoading('Arranging Layout...');
+                await paginateContent(finalElements);
+                
+                document.title = currentDocumentSubject;
+                hideLoading();
+                toggleMenu(); // Close menu on success
+                
             } catch (err) {
-                console.error(err);
                 alert('Error: ' + err.message);
                 hideLoading();
             }
         }
 
+        async function parsePdfToParagraphs(arrayBuffer) {
+            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+            const pdf = await loadingTask.promise;
+            let paragraphs = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const text = await page.getTextContent();
+                let lastY = -1;
+                let line = "";
+                const items = text.items.sort((a, b) => b.transform[5] - a.transform[5]);
+                items.forEach(item => {
+                    const str = item.str.trim();
+                    if (!str) return;
+                    const y = item.transform[5];
+                    if (lastY !== -1 && Math.abs(y - lastY) > 5) {
+                        if (line) paragraphs.push(line);
+                        line = str;
+                    } else {
+                        line += (line ? " " : "") + str;
+                    }
+                    lastY = y;
+                });
+                if (line) paragraphs.push(line);
+            }
+            return paragraphs;
+        }
+
         processBtn.addEventListener('click', processAndPrint);
 
         function printPDF() {
-            window.print();
+            const element = document.querySelector('.pages-wrapper');
+            const safeName = currentDocumentSubject.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const opt = {
+                margin: 0,
+                filename: safeName + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            html2pdf().set(opt).from(element).save();
         }
     </script>
 </body>
-
 </html>
