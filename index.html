@@ -824,6 +824,2962 @@
             flex: 1; /* Allow content to fill space */
             overflow: hidden; /* Important for measurement */
             min-height: 0; /* Required for flexbox to shrink */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-zone p, .content-zone-mini p, 
+        .content-zone table, .content-zone-mini table, 
+        .content-zone ul, .content-zone-mini ul, 
+        .content-zone ol, .content-zone-mini ol,
+        .content-zone div, .content-zone-mini div {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--navy-royal);
+            margin-bottom: 14px;
+            text-align: justify;
+            word-break: break-word;
+            hyphens: auto;
+            flex-shrink: 0; /* Prevent squeezing */
+        }
+
+        .content-zone p.underline {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--gold-primary);
+            padding-bottom: 8px;
+            text-align: left;
+        }
+
+        .margin-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--gold-primary), transparent 80%);
+            opacity: 0.4;
+        }
+
+        .signature-wrap {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            page-break-inside: avoid;
+            min-width: 180px;
+        }
+
+        .signatures-row {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: flex-start;
+            page-break-inside: avoid;
+        }
+
+        .signature-img {
+            max-width: 180px;
+            max-height: 90px;
+            object-fit: contain;
+            filter: contrast(1.1) brightness(1.05);
+        }
+
+        .signature-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .signature-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        /* ===== FOOTER (All Pages) ===== */
+        .footer-main {
+            position: relative;
+            height: 170px;
+            background: var(--navy-deep);
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-top: auto; /* Push to bottom of flex container */
+        }
+
+        .footer-main::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 55px;
+            background: #fefefe;
+            clip-path: path('M0,0 L2100,0 L2100,18 C1900,55 1800,12 1600,38 C1400,65 1300,18 1100,42 C900,70 800,28 600,38 C400,48 300,12 100,28 C50,38 0,55 0,55 Z');
+        }
+
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            opacity: 0.4;
+        }
+
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-bright);
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 45px 60px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 40px;
+        }
+
+        .contact-col {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.9);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            line-height: 1.5;
+        }
+
+        .icon-gold {
+            width: 28px;
+            height: 28px;
+            background: var(--gold-metallic);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--navy-deep);
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .contact-item strong {
+            display: block;
+            color: var(--gold-bright);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .qr-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qr-box {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            border: 4px solid var(--gold-primary);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .qr-box img {
+            width: 80px;
+            height: 80px;
+            display: block;
+        }
+
+        .qr-label {
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--gold-bright);
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .footer-gold {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gold-metallic);
+            box-shadow: 0 -2px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        @media print {
+            body { background: white; padding: 0; margin: 0; }
+            .controls, .menu-panel, .loading-overlay, .floating-menu-toggle, .ops-toggle, .help-modal { display: none !important; }
+            .page-label { display: none !important; }
+            .pages-wrapper { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .a4-page { 
+                box-shadow: none !important; 
+                margin: 0 !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                display: flex !important; /* Keep internal layout */
+                float: none !important;
+            }
+            .a4-page:last-child { page-break-after: auto !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            @page { size: A4; margin: 0; }
+        }
+
+        /* Mobile Optimization */
+        .mobile-only-control {
+            display: none !important;
+        }
+
+        @media screen and (max-width: 850px) {
+            .mobile-only-control {
+                display: flex !important;
+            }
+            body {
+                padding: 10px;
+                background: #f1f5f9;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow-x: hidden;
+            }
+            
+            .controls {
+                position: fixed;
+                top: 20px;
+                right: 85px;
+                flex-direction: row; /* Match desktop layout but maybe smaller */
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                width: calc(100% - 120px);
+                z-index: 3000;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 10px;
+            }
+
+            .floating-menu-toggle {
+                display: flex;
+            }
+            
+            .menu-panel {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                max-width: none;
+                margin-bottom: 0;
+                border-radius: 20px 20px 0 0;
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+                max-height: 85vh;
+                padding: 20px 15px 40px;
+                transform: translateY(0);
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .menu-panel.hidden {
+                transform: translateY(100%);
+                opacity: 1; /* Keep visible for slide effect */
+            }
+
+            .pages-wrapper {
+                width: 100%;
+                padding-top: 80px;
+                padding-bottom: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .a4-page {
+                transform: scale(0.42);
+                transform-origin: top center;
+                margin-bottom: -170mm; /* Adjusted for better spacing */
+                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            }
+
+            .a4-page.mobile-fit {
+                transform: scale(0.9);
+                margin-bottom: 10px;
+            }
+
+            .page-label {
+                margin-top: 10px;
+                font-size: 12px;
+                background: var(--gold-metallic);
+                color: var(--navy-deep);
+                padding: 4px 12px;
+                border-radius: 20px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .help-content {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .help-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Controls -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p id="loadingText">Processing Document...</p>
+    </div>
+
+    <button class="ops-toggle" id="opsToggle" onclick="toggleControls()" title="Operations Menu">
+        <span>⚙</span>
+    </button>
+
+    <div class="controls hidden" id="controlsPanel">
+        <button class="btn secondary" onclick="toggleHelp()">How to Use</button>
+        <button class="btn" onclick="printPDF()">Print PDF</button>
+        <button class="btn" style="background: #2b6cb0; color: white;" onclick="exportDocx()">Export Word</button>
+        <button class="btn secondary" onclick="copyContent()">Copy Text</button>
+        <button class="btn secondary" onclick="shareDocument()">Share</button>
+        <button class="btn secondary" onclick="window.print()">Print View</button>
+        <button class="btn secondary" style="background: #ef4444; color: white; border: none;" onclick="toggleUI()">Hide UI</button>
+    </div>
+
+    <button class="floating-menu-toggle" id="menuToggle" onclick="toggleMenu()">
+        <span>☰</span>
+    </button>
+
+    <div id="menu-panel" class="menu-panel">
+        <div class="menu-header">
+            <div class="menu-title">Document Engine</div>
+            <button class="btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleMenu()">Close</button>
+        </div>
+
+        <div id="subject-status" class="subject-status">Awaiting Source...</div>
+
+        <div class="menu-tabs">
+            <button class="tab-btn active" onclick="switchTab('file')">File</button>
+            <button class="tab-btn" onclick="switchTab('manual')">Manual</button>
+            <button class="tab-btn" onclick="switchTab('signatures')">Signatures</button>
+            <button class="tab-btn" onclick="switchTab('analysis')">Smart Sense</button>
+            <button class="tab-btn" onclick="switchTab('settings')">Settings</button>
+        </div>
+
+        <div id="file-tab" class="tab-content active">
+            <div class="menu-group">
+                <label for="docxFile">Select .docx / .pdf / .png / .jpg</label>
+                <input id="docxFile" type="file" accept=".docx, .pdf, image/*, .html" class="menu-input" />
+            </div>
+            <div class="menu-group">
+                <label for="subjectInput">Subject Override</label>
+                <input id="subjectInput" class="menu-input" placeholder="Optional" />
+            </div>
+        </div>
+
+        <div id="manual-tab" class="tab-content">
+            <div class="menu-group">
+                <label for="recipientInput">Recipient (To:)</label>
+                <input id="recipientInput" class="menu-input" placeholder="e.g. The Manager, ..." />
+            </div>
+            <div class="menu-group">
+                <label for="salutationInput">Salutation (Dear:)</label>
+                <input id="salutationInput" class="menu-input" placeholder="e.g. Dear Sir," />
+            </div>
+            <div class="menu-group">
+                <label for="manualSubject">Subject Line</label>
+                <input id="manualSubject" class="menu-input" placeholder="e.g. APPLICATION FOR..." />
+            </div>
+            <div class="menu-group">
+                <label for="bodyInput">Letter Body</label>
+                <div style="font-size: 8px; color: #718096; margin-bottom: 4px;">Use **bold** and *italic* for formatting.</div>
+                <textarea id="bodyInput" class="menu-textarea" placeholder="Paste your content here..."></textarea>
+            </div>
+        </div>
+
+        <div id="signatures-tab" class="tab-content">
+            <div style="font-size: 10px; color: var(--gold-bright); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Manage up to 4 Signatures</div>
+            
+            <div id="multi-signature-container" style="display: grid; gap: 15px;">
+                <!-- Signature 1 -->
+                <div class="sig-config-block" style="background: rgba(15, 35, 64, 0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2);">
+                    <div style="font-size: 9px; color: var(--gold-primary); margin-bottom: 8px; font-weight: 700;">SIGNATURE 1</div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-file-1" type="file" accept="image/*" class="menu-input" style="padding: 5px;" />
+                    </div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-name-1" class="menu-input" placeholder="Full Name" style="padding: 6px 10px;" />
+                    </div>
+                    <div class="menu-group">
+                        <input id="sig-title-1" class="menu-input" placeholder="Designation / Title" style="padding: 6px 10px;" />
+                    </div>
+                </div>
+
+                <!-- Signature 2 -->
+                <div class="sig-config-block" style="background: rgba(15, 35, 64, 0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2);">
+                    <div style="font-size: 9px; color: var(--gold-primary); margin-bottom: 8px; font-weight: 700;">SIGNATURE 2</div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-file-2" type="file" accept="image/*" class="menu-input" style="padding: 5px;" />
+                    </div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-name-2" class="menu-input" placeholder="Full Name" style="padding: 6px 10px;" />
+                    </div>
+                    <div class="menu-group">
+                        <input id="sig-title-2" class="menu-input" placeholder="Designation / Title" style="padding: 6px 10px;" />
+                    </div>
+                </div>
+
+                <!-- Signature 3 -->
+                <div class="sig-config-block" style="background: rgba(15, 35, 64, 0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2);">
+                    <div style="font-size: 9px; color: var(--gold-primary); margin-bottom: 8px; font-weight: 700;">SIGNATURE 3</div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-file-3" type="file" accept="image/*" class="menu-input" style="padding: 5px;" />
+                    </div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-name-3" class="menu-input" placeholder="Full Name" style="padding: 6px 10px;" />
+                    </div>
+                    <div class="menu-group">
+                        <input id="sig-title-3" class="menu-input" placeholder="Designation / Title" style="padding: 6px 10px;" />
+                    </div>
+                </div>
+
+                <!-- Signature 4 -->
+                <div class="sig-config-block" style="background: rgba(15, 35, 64, 0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2);">
+                    <div style="font-size: 9px; color: var(--gold-primary); margin-bottom: 8px; font-weight: 700;">SIGNATURE 4</div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-file-4" type="file" accept="image/*" class="menu-input" style="padding: 5px;" />
+                    </div>
+                    <div class="menu-group" style="margin-bottom: 8px;">
+                        <input id="sig-name-4" class="menu-input" placeholder="Full Name" style="padding: 6px 10px;" />
+                    </div>
+                    <div class="menu-group">
+                        <input id="sig-title-4" class="menu-input" placeholder="Designation / Title" style="padding: 6px 10px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="analysis-tab" class="tab-content">
+            <div class="menu-group">
+                <label>Document Intelligence</label>
+                <div id="analysis-results" style="font-size: 11px; color: #cbd5e0; background: #0f2340; padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2); min-height: 100px;">
+                    Awaiting content analysis...
+                </div>
+            </div>
+            <div class="menu-group">
+                <label>Detected Entities</label>
+                <div id="entity-tags" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                    <!-- Tags will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-tab" class="tab-content">
+            <div class="menu-group">
+                <label>Appearance Settings</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
+                    <input type="checkbox" id="showWatermark" checked onchange="updateAppearance()">
+                    <span style="font-size: 11px; color: #cbd5e0;">Show Watermark</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;" class="mobile-only-control">
+                    <button class="btn" style="padding: 4px 8px; font-size: 9px;" onclick="toggleMobileZoom()">Toggle Mobile Fit</button>
+                </div>
+            </div>
+            <div class="menu-group">
+                <label>Dynamic Footer Override</label>
+                <input id="footerAddress" class="menu-input" placeholder="Registered Address" oninput="updateFooterInfo()">
+                <input id="footerEmail" class="menu-input" placeholder="Email Address" oninput="updateFooterInfo()">
+                <input id="footerPhone" class="menu-input" placeholder="Phone Numbers" oninput="updateFooterInfo()">
+            </div>
+        </div>
+
+        <div class="menu-group">
+            <label for="refInput">Reference Number</label>
+            <input id="refInput" class="menu-input" placeholder="SFD/____/2026" />
+        </div>
+        <div class="menu-group">
+            <label for="dateInput">Issue Date</label>
+            <input id="dateInput" type="date" class="menu-input" />
+        </div>
+
+        <div class="menu-actions">
+            <button id="processBtn" class="btn" style="flex: 2;">Process & Preview</button>
+            <button class="btn secondary" style="flex: 1;" onclick="resetDocument(); toggleMenu();">Clear</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-content">
+            <button class="help-close" onclick="toggleHelp()">×</button>
+            <h2 class="help-title">How to Use the Engine</h2>
+            
+            <div class="help-section">
+                <h3>1. Choose Your Input Mode</h3>
+                <p>Select either <strong>File Upload</strong> or <strong>Manual Input</strong> from the tabs in the Document Menu.</p>
+                <ul>
+                    <li><strong>File Upload:</strong> Best for existing .docx or .pdf documents. The engine will extract text and headings automatically.</li>
+                    <li><strong>Manual Input:</strong> Perfect for typing or pasting letters from scratch.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>2. Professional Formatting</h3>
+                <p>In Manual Mode, you can use simple shortcuts to style your letter body:</p>
+                <ul>
+                    <li>Use <strong>**text**</strong> for <strong>bold text</strong>.</li>
+                    <li>Use <strong>*text*</strong> for <em>italic text</em>.</li>
+                    <li>Lines starting with "To:", "Dear", or "Attention:" are automatically bolded.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>3. Signatures & Metadata</h3>
+                <ul>
+                    <li><strong>Reference Number:</strong> Enter your official document reference (e.g., SFD/001/2026).</li>
+                    <li><strong>Issue Date:</strong> Select the date to appear on the letterhead.</li>
+                    <li><strong>Signature:</strong> Upload a photo or scan of your signature to place it at the end of the document.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>4. Processing & Export</h3>
+                <p>Click <strong>Process & Preview</strong> to generate your multi-page letterhead. Once satisfied:</p>
+                <ul>
+                    <li>Click <strong>Print PDF</strong> to download a high-quality PDF with a subject-based filename.</li>
+                    <li>Click <strong>Print View</strong> to use your browser's standard print dialog.</li>
+                </ul>
+            </div>
+
+            <div class="help-footer">
+                <button class="btn" onclick="toggleHelp()">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pages -->
+    <div class="pages-wrapper">
+
+        <!-- PAGE 1 -->
+        <div class="page-label">Page 1</div>
+        <div class="a4-page" id="page-1">
+            <div class="watermark-logo"><img src="https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png" alt=""></div>
+            <div class="watermark-text">SKILLFORGE</div>
+
+            <!-- Full Header -->
+            <header class="header-full">
+                <div class="gold-orbit"></div>
+                <div class="gold-vein-header"></div>
+                <div class="ribbon"><span>Official Document</span></div>
+                
+                <div class="header-content-full">
+                    <div class="logo-big">
+                        <div class="logo-big-outer">
+                            <div class="logo-big-inner">
+                                <div class="shine"></div>
+                                <img src="https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png" alt="Skillforge">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <div class="brand-title">
+                            Skillforge Digital
+                            <span class="brand-subtitle">& Company Limited</span>
+                        </div>
+                        <div class="rc-badge">RC: 9284189</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Body -->
+            <main class="body-full">
+                <div class="meta-bar">
+                    <div class="meta-item">
+                        <span class="meta-label">Reference Number</span>
+                        <span class="meta-value underline" id="ref-number">SFD/____/2026</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Date of Issue</span>
+                        <span class="meta-value" id="issue-date">____ __________ 2026</span>
+                    </div>
+                </div>
+                <div class="content-zone">
+                    <div class="margin-line"></div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer-main">
+                <div class="particles">
+                    <div class="dot" style="top: 30%; left: 10%;"></div>
+                    <div class="dot" style="top: 60%; left: 25%;"></div>
+                    <div class="dot" style="top: 40%; left: 50%;"></div>
+                    <div class="dot" style="top: 70%; left: 75%;"></div>
+                    <div class="dot" style="top: 50%; left: 90%;"></div>
+                </div>
+                <div class="footer-content">
+                    <div class="contact-grid">
+                        <div class="contact-col">
+                            <div class="contact-item">
+                                <div class="icon-gold">⌖</div>
+                                <div>
+                                    <strong>Registered Address</strong>
+                                    <span class="dynamic-address"></span>18, Fiyinfoluwa Crescent, Mowe<br>Ogun State, Nigeria</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-gold">✉</div>
+                                <div>
+                                    <strong>Email</strong>
+                                    <span class="dynamic-email">info@skillforgedigital.com.ng</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-col">
+                            <div class="contact-item">
+                                <div class="icon-gold">☎</div>
+                                <div>
+                                    <strong>Telephone</strong>
+                                    <span class="dynamic-phone">+234 802 214 0329<br>+234 912 876 1858</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-gold">🌐</div>
+                                <div>
+                                    <strong>Website</strong>
+                                    www.skillforgedigital.com.ng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qr-wrap">
+                        <div class="qr-box dynamic-qrcode">
+                            <!-- Generated QR code will appear here -->
+                        </div>
+                        <div class="qr-label">Scan to Verify</div>
+                    </div>
+                </div>
+                <div class="footer-gold"></div>
+            </footer>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="page-label">Page 2 (Continuation)</div>
+        <div class="a4-page" id="page-2">
+            <div class="watermark-logo"><img src="https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png" alt=""></div>
+            <div class="watermark-text">SKILLFORGE</div>
+
+            <!-- Mini Header -->
+            <header class="header-mini">
+                <div class="gold-vein-mini"></div>
+                <div class="header-content-mini">
+                    <div class="brand-mini">
+                        <div class="logo-mini">
+                            <div class="logo-mini-inner">
+                                <img src="https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png" alt="Skillforge">
+                            </div>
+                        </div>
+                        <div class="brand-mini-text">
+                            Skillforge Digital
+                            <span>& Company Limited</span>
+                        </div>
+                    </div>
+                    <div class="page-badge">Page 2</div>
+                </div>
+            </header>
+
+            <!-- Body -->
+            <main class="body-mini">
+                <div class="continuation-bar">
+                    <div class="cont-line"></div>
+                    <div class="cont-text">— Continued from previous page —</div>
+                    <div class="cont-line"></div>
+                </div>
+                <div class="content-zone-mini">
+                    <div class="margin-line"></div>
+                </div>
+            </main>
+
+            <!-- Same Footer -->
+            <footer class="footer-main">
+                <div class="particles">
+                    <div class="dot" style="top: 30%; left: 10%;"></div>
+                    <div class="dot" style="top: 60%; left: 25%;"></div>
+                    <div class="dot" style="top: 40%; left: 50%;"></div>
+                    <div class="dot" style="top: 70%; left: 75%;"></div>
+                    <div class="dot" style="top: 50%; left: 90%;"></div>
+                </div>
+                <div class="footer-content">
+                    <div class="contact-grid">
+                        <div class="contact-col">
+                            <div class="contact-item">
+                                <div class="icon-gold">⌖</div>
+                                <div>
+                                    <strong>Registered Address</strong>
+                                    <span class="dynamic-address"></span>18, Fiyinfoluwa Crescent, Mowe<br>Ogun State, Nigeria</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-gold">✉</div>
+                                <div>
+                                    <strong>Email</strong>
+                                    <span class="dynamic-email">info@skillforgedigital.com.ng</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-col">
+                            <div class="contact-item">
+                                <div class="icon-gold">☎</div>
+                                <div>
+                                    <strong>Telephone</strong>
+                                    <span class="dynamic-phone">+234 802 214 0329<br>+234 912 876 1858</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-gold">🌐</div>
+                                <div>
+                                    <strong>Website</strong>
+                                    www.skillforgedigital.com.ng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qr-wrap">
+                        <div class="qr-box dynamic-qrcode">
+                            <!-- Generated QR code will appear here -->
+                        </div>
+                        <div class="qr-label">Scan to Verify</div>
+                    </div>
+                </div>
+                <div class="footer-gold"></div>
+            </footer>
+        </div>
+
+    </div>
+
+    <script>
+        const refInput = document.getElementById('refInput');
+        const dateInput = document.getElementById('dateInput');
+        const subjectInput = document.getElementById('subjectInput');
+        const docxFileInput = document.getElementById('docxFile');
+        const processBtn = document.getElementById('processBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const menuPanel = document.getElementById('menu-panel');
+        const helpModal = document.getElementById('helpModal');
+        const subjectStatus = document.getElementById('subject-status');
+        const controlsPanel = document.getElementById('controlsPanel');
+
+        // Multi-signature inputs
+        const sigFiles = [
+            document.getElementById('sig-file-1'),
+            document.getElementById('sig-file-2'),
+            document.getElementById('sig-file-3'),
+            document.getElementById('sig-file-4')
+        ];
+
+        let currentTab = 'file';
+        let currentDocumentSubject = 'Skillforge_Document';
+        let lastDetectedSubject = '';
+        let currentDocumentType = 'Official Document';
+
+        function initDefaults() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            if (dateInput) dateInput.value = `${yyyy}-${mm}-${dd}`;
+            if (refInput) refInput.placeholder = `SFD/____/${yyyy}`;
+        }
+
+        function toggleUI() {
+            document.body.classList.toggle('ui-hidden');
+        }
+
+        function toggleControls() {
+            if (controlsPanel) {
+                controlsPanel.classList.toggle('hidden');
+                const toggle = document.getElementById('opsToggle');
+                if (toggle) {
+                    toggle.style.transform = controlsPanel.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+                }
+            }
+        }
+
+        async function copyContent() {
+            const body = document.getElementById('bodyInput').value;
+            if (!body) {
+                alert('No content to copy!');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(body);
+                alert('Letter body copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy: ' + err);
+            }
+        }
+
+        async function shareDocument() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: currentDocumentSubject,
+                        text: `Check out this ${currentDocumentType}: ${currentDocumentSubject}`,
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    console.log('Share failed:', err);
+                }
+            } else {
+                alert('Web Share API not supported in this browser. You can copy the URL instead.');
+            }
+        }
+
+        function toggleMobileZoom() {
+            document.querySelectorAll('.a4-page').forEach(page => {
+                page.classList.toggle('mobile-fit');
+            });
+            const btn = event.target;
+            if (btn && btn.tagName === 'BUTTON') {
+                const isFit = document.querySelector('.a4-page').classList.contains('mobile-fit');
+                btn.textContent = isFit ? 'Exit Mobile Fit' : 'Enter Mobile Fit';
+            }
+        }
+
+        function toggleHelp() {
+            const isVisible = helpModal.style.display === 'flex';
+            helpModal.style.display = isVisible ? 'none' : 'flex';
+        }
+
+        function createSignatureElement(imgSrc, name, title) {
+            const wrap = document.createElement('div');
+            wrap.className = 'signature-wrap';
+            
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.className = 'signature-img';
+            
+            const nameEl = document.createElement('div');
+            nameEl.className = 'signature-name';
+            nameEl.textContent = name || 'Authorized Signature';
+            
+            wrap.appendChild(img);
+            wrap.appendChild(nameEl);
+
+            if (title) {
+                const titleEl = document.createElement('div');
+                titleEl.className = 'signature-title';
+                titleEl.textContent = title;
+                wrap.appendChild(titleEl);
+            }
+
+            return wrap;
+        }
+
+        // Draft Persistence
+        function saveDraft() {
+            const draft = {
+                recipient: document.getElementById('recipientInput').value,
+                salutation: document.getElementById('salutationInput').value,
+                subject: document.getElementById('manualSubject').value,
+                body: document.getElementById('bodyInput').value,
+                ref: document.getElementById('refInput').value,
+                date: document.getElementById('dateInput').value,
+                tab: currentTab,
+                sigs: []
+            };
+
+            for (let i = 1; i <= 4; i++) {
+                const nameVal = document.getElementById(`sig-name-${i}`) ? document.getElementById(`sig-name-${i}`).value : '';
+                const titleVal = document.getElementById(`sig-title-${i}`) ? document.getElementById(`sig-title-${i}`).value : '';
+                draft.sigs.push({ name: nameVal, title: titleVal });
+            }
+
+            localStorage.setItem('skillforge_draft', JSON.stringify(draft));
+        }
+
+        function loadDraft() {
+            const draftStr = localStorage.getItem('skillforge_draft');
+            if (!draftStr) return;
+            const draft = JSON.parse(draftStr);
+            document.getElementById('recipientInput').value = draft.recipient || '';
+            document.getElementById('salutationInput').value = draft.salutation || '';
+            document.getElementById('manualSubject').value = draft.subject || '';
+            document.getElementById('bodyInput').value = draft.body || '';
+            document.getElementById('refInput').value = draft.ref || '';
+            document.getElementById('dateInput').value = draft.date || '';
+            
+            if (draft.sigs) {
+                draft.sigs.forEach((sig, i) => {
+                    const idx = i + 1;
+                    if (document.getElementById(`sig-name-${idx}`)) {
+                        document.getElementById(`sig-name-${idx}`).value = sig.name || '';
+                        document.getElementById(`sig-title-${idx}`).value = sig.title || '';
+                    }
+                });
+            }
+
+            if (draft.tab) switchTab(draft.tab);
+        }
+
+        window.addEventListener('load', () => {
+            loadDraft();
+            initDefaults();
+        });
+
+        function updateSubjectStatus(detected, manual) {
+            if (!subjectStatus) return;
+            if (!detected && !manual) {
+                subjectStatus.textContent = 'Awaiting Source...';
+                subjectStatus.style.borderColor = 'rgba(201,162,39,0.3)';
+                return;
+            }
+            if (manual && detected) {
+                const match = manual.trim().toUpperCase() === detected.trim().toUpperCase();
+                subjectStatus.textContent = match ? 'Subject Status: Match ✓' : 'Subject Status: Mismatch ⚠';
+                subjectStatus.style.borderColor = match ? '#10b981' : '#f59e0b';
+            } else if (manual) {
+                subjectStatus.textContent = 'Subject Status: Manual Set';
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            } else {
+                subjectStatus.textContent = 'Subject Status: Auto-Detected';
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            }
+        }
+
+        // Auto-save on input
+        const autoSaveIds = [
+            'recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 
+            'refInput', 'dateInput', 'subjectInput',
+            'sig-name-1', 'sig-title-1', 'sig-name-2', 'sig-title-2',
+            'sig-name-3', 'sig-title-3', 'sig-name-4', 'sig-title-4'
+        ];
+        autoSaveIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', () => {
+                    saveDraft();
+                    if (id === 'subjectInput' || id === 'manualSubject') {
+                        updateSubjectStatus(lastDetectedSubject, el.value);
+                    }
+                });
+            }
+        });
+
+        function updateAppearance() {
+            const showWM = document.getElementById('showWatermark').checked;
+            document.querySelectorAll('.watermark-logo, .watermark-text').forEach(el => {
+                el.style.display = showWM ? 'block' : 'none';
+            });
+        }
+
+        function updateFooterInfo() {
+            const addr = document.getElementById('footerAddress').value.trim();
+            const email = document.getElementById('footerEmail').value.trim();
+            const phone = document.getElementById('footerPhone').value.trim();
+
+            if (addr) document.querySelectorAll('.dynamic-address').forEach(el => el.innerHTML = addr.replace(/\n/g, '<br>'));
+            if (email) document.querySelectorAll('.dynamic-email').forEach(el => el.textContent = email);
+            if (phone) document.querySelectorAll('.dynamic-phone').forEach(el => el.innerHTML = phone.replace(/\n/g, '<br>'));
+        }
+
+        function toggleMenu() {
+            menuPanel.classList.toggle('hidden');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            const btnMap = {
+                'file': 1,
+                'manual': 2,
+                'signatures': 3,
+                'analysis': 4,
+                'settings': 5
+            };
+            
+            if (btnMap[tab]) {
+                document.querySelector(`.tab-btn:nth-child(${btnMap[tab]})`).classList.add('active');
+                document.getElementById(`${tab}-tab`).classList.add('active');
+            }
+        }
+
+        function showLoading(text) {
+            loadingText.textContent = text;
+            loadingOverlay.style.display = 'flex';
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+        }
+
+        function formatDate(d) {
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const day = d.getDate();
+            const month = months[d.getMonth()];
+            const year = d.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+
+        function getMenuDate() {
+            if (dateInput && dateInput.value) {
+                const parts = dateInput.value.split('-');
+                const d = new Date(parseInt(parts[0],10), parseInt(parts[1],10)-1, parseInt(parts[2],10));
+                return formatDate(d);
+            }
+            return formatDate(new Date());
+        }
+
+        function isAllCapsLine(text) {
+            const t = text.trim();
+            const letters = t.replace(/[^A-Za-z]/g, '');
+            if (letters.length < 4) return false;
+            return t === t.toUpperCase();
+        }
+
+        function resetDocument() {
+            localStorage.removeItem('skillforge_draft');
+            const wrapper = document.querySelector('.pages-wrapper');
+            const allPages = Array.from(wrapper.querySelectorAll('.a4-page'));
+            const allLabels = Array.from(wrapper.querySelectorAll('.page-label'));
+            
+            allPages.forEach((p, idx) => { if (idx > 1) p.remove(); });
+            allLabels.forEach((l, idx) => { if (idx > 1) l.remove(); });
+
+            document.querySelector('#page-1 .content-zone').innerHTML = '<div class="margin-line"></div>';
+            document.querySelector('#page-2 .content-zone-mini').innerHTML = '<div class="margin-line"></div>';
+            
+            // Clear manual inputs
+            ['recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 'refInput', 'dateInput', 'subjectInput'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+        }
+
+        function createContinuationPage(pageNumber) {
+            const pagesWrapper = document.querySelector('.pages-wrapper');
+            const label = document.createElement('div');
+            label.className = 'page-label';
+            label.textContent = `Page ${pageNumber} (Continuation)`;
+            
+            const base = document.getElementById('page-2');
+            const clone = base.cloneNode(true);
+            clone.id = `page-${pageNumber}`;
+            
+            const badge = clone.querySelector('.page-badge');
+            if (badge) badge.textContent = `Page ${pageNumber}`;
+            
+            const content = clone.querySelector('.content-zone-mini');
+            if (content) {
+                content.innerHTML = '<div class="margin-line"></div>';
+            }
+            
+            pagesWrapper.appendChild(label);
+            pagesWrapper.appendChild(clone);
+            return clone;
+        }
+
+        function getAvailableHeight(container) {
+            const page = container.closest('.a4-page');
+            if (!page) return 500; // Fallback
+
+            const isPage1 = page.id === 'page-1';
+            const headerHeight = isPage1 ? 280 : 120;
+            const footerHeight = 170;
+            const bodyPadding = isPage1 ? (50 + 40) : (30 + 40);
+            const metaBarHeight = isPage1 ? 62 : 0; // Approx height of meta-bar
+            const contBarHeight = isPage1 ? 0 : 71; // Approx height of continuation-bar
+
+            const totalHeight = 1122; // 297mm
+            const safetyBuffer = 25; // More conservative safety buffer
+            return totalHeight - headerHeight - footerHeight - bodyPadding - metaBarHeight - contBarHeight - safetyBuffer;
+        }
+
+        function createStyledElement(content, type = 'p') {
+            const el = document.createElement(type);
+            el.style.fontFamily = 'Cormorant Garamond, serif';
+            el.style.color = 'var(--navy-royal)';
+            el.style.textAlign = 'justify';
+            el.style.fontSize = '18px';
+            el.style.fontWeight = '500';
+            el.style.lineHeight = '1.6';
+            el.style.marginBottom = '14px';
+            el.style.wordBreak = 'break-word';
+            el.style.hyphens = 'auto';
+
+            if (type === 'table') {
+                el.style.width = '100%';
+                el.style.borderCollapse = 'collapse';
+                el.style.marginBottom = '20px';
+                el.style.fontSize = '14px';
+                el.innerHTML = content;
+                el.querySelectorAll('td, th').forEach(cell => {
+                    cell.style.border = '1px solid rgba(10, 25, 47, 0.2)';
+                    cell.style.padding = '8px';
+                });
+                return el;
+            }
+
+            if (type === 'ul' || type === 'ol') {
+                el.style.paddingLeft = '30px';
+                el.style.marginBottom = '20px';
+                el.innerHTML = content;
+                el.querySelectorAll('li').forEach(li => {
+                    li.style.marginBottom = '8px';
+                    li.style.listStyleType = type === 'ul' ? 'disc' : 'decimal';
+                    li.style.fontSize = '17px';
+                });
+                return el;
+            }
+
+            // Support for basic bold/italic formatting (manual input)
+            let formattedContent = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            const cleanText = formattedContent.replace(/<\/?[^>]+(>|$)/g, "").trim().toLowerCase();
+
+            if (type === 'h1' || type === 'h2' || type === 'h3' || type === 'h4') {
+                el.style.fontWeight = '700';
+                el.style.color = 'var(--navy-deep)';
+                el.style.marginBottom = '18px';
+                el.style.textAlign = 'left';
+                el.style.fontSize = (28 - (parseInt(type.charAt(1)) * 2)) + 'px';
+            }
+
+            // Detection for Recipient, Salutation, and Lists
+            if (cleanText.startsWith('dear') || cleanText.startsWith('to:') || cleanText.startsWith('attention:')) {
+                el.style.fontWeight = '700';
+                el.style.marginBottom = '20px';
+                el.style.textAlign = 'left';
+            }
+
+            // Memo specific sensing
+            if (cleanText.startsWith('memo') || cleanText.startsWith('memorandum') || cleanText.includes('board communication')) {
+                el.style.textAlign = 'center';
+                el.style.fontSize = '24px';
+                el.style.fontWeight = '800';
+                el.style.letterSpacing = '5px';
+                el.style.textTransform = 'uppercase';
+                el.style.borderBottom = '3px double var(--navy-royal)';
+                el.style.paddingBottom = '10px';
+            }
+
+            // Simple List detection for manual input
+            if (cleanText.startsWith('•') || cleanText.startsWith('-') || /^\d+\./.test(cleanText)) {
+                el.style.paddingLeft = '25px';
+                el.style.position = 'relative';
+                el.style.textAlign = 'left';
+            }
+
+            // Smart Sensing based on Document Type
+            if (currentDocumentType === 'Invoice / Financial') {
+                // Bold currency amounts
+                formattedContent = formattedContent.replace(/(\$|£|€|₦|USD|GBP|EUR|NGN)\s?(\d+(?:,\d+)*(?:\.\d+)?)/g, '<strong>$1$2</strong>');
+            }
+
+            el.innerHTML = formattedContent;
+            return el;
+        }
+
+        function createSubjectLine(text) {
+            const p = document.createElement('p');
+            p.className = 'underline';
+            p.style.fontFamily = 'Cormorant Garamond, serif';
+            p.style.color = 'var(--navy-royal)';
+            p.style.fontSize = '19px';
+            p.style.lineHeight = '1.6';
+            p.style.marginBottom = '24px';
+            p.style.fontWeight = '700';
+            p.style.textAlign = 'left';
+            p.style.borderBottom = '2px solid var(--gold-primary)';
+            p.style.paddingBottom = '8px';
+            p.textContent = text;
+            return p;
+        }
+
+        async function paginateContent(elements) {
+            let pageNum = 1;
+            let container = document.querySelector('#page-1 .content-zone');
+            
+            for (let el of elements) {
+                container.appendChild(el);
+                
+                // Allow browser to catch up with layout
+                if (elements.indexOf(el) % 10 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+                
+                // Force layout calculation
+                void container.offsetHeight;
+
+                while (container.scrollHeight > getAvailableHeight(container)) {
+                    container.removeChild(el);
+                    
+                    const tag = el.tagName.toLowerCase();
+                    const isFirstElement = container.children.length <= 1; // only margin line exists
+                    const available = getAvailableHeight(container);
+                    const remaining = available - container.scrollHeight;
+
+                    // If it's an image or contains an image, try scaling it down to fit the current page
+                    if (tag === 'div' && el.querySelector('img')) {
+                        const img = el.querySelector('img');
+                        // If it's the first element on a fresh page, it must fit.
+                        // Otherwise, if it's not the first element, try to scale it to fit the REMAINING space.
+                        const targetHeight = isFirstElement ? available - 20 : remaining - 20;
+                        
+                        if (targetHeight > 100) { // Only scale if we have at least some space
+                            img.style.maxHeight = targetHeight + 'px';
+                            container.appendChild(el);
+                            if (container.scrollHeight <= available) break;
+                            container.removeChild(el);
+                        }
+                    }
+
+                    if (tag === 'p') {
+                        // For text-heavy elements, split by content
+                        const originalHTML = el.innerHTML;
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = originalHTML;
+                        
+                        let currentPara = createStyledElement('', tag);
+                        container.appendChild(currentPara);
+                        
+                        const nodes = Array.from(tempDiv.childNodes);
+                        for (let node of nodes) {
+                            if (node.nodeType === Node.TEXT_NODE) {
+                                const words = node.textContent.split(' ');
+                                for (let word of words) {
+                                    const prevHTML = currentPara.innerHTML;
+                                    currentPara.innerHTML += (prevHTML ? ' ' : '') + word;
+                                    
+                                    if (container.scrollHeight > getAvailableHeight(container)) {
+                                        currentPara.innerHTML = prevHTML;
+                                        pageNum++;
+                                        container = getNextPageContainer(pageNum);
+                                        currentPara = createStyledElement('', tag);
+                                        container.appendChild(currentPara);
+                                        currentPara.innerHTML = word;
+                                    }
+                                }
+                            } else {
+                                const prevHTML = currentPara.innerHTML;
+                                currentPara.appendChild(node.cloneNode(true));
+                                
+                                if (container.scrollHeight > getAvailableHeight(container)) {
+                                    currentPara.removeChild(currentPara.lastChild);
+                                    pageNum++;
+                                    container = getNextPageContainer(pageNum);
+                                    currentPara = createStyledElement('', tag);
+                                    container.appendChild(currentPara);
+                                    currentPara.appendChild(node.cloneNode(true));
+                                }
+                            }
+                        }
+                        break; 
+                    } else if (tag === 'table') {
+                        // Special Table Splitting Logic
+                        const rows = Array.from(el.querySelectorAll('tr'));
+                        let currentTable = el.cloneNode(false);
+                        currentTable.innerHTML = '';
+                        container.appendChild(currentTable);
+                        
+                        for (let row of rows) {
+                            currentTable.appendChild(row.cloneNode(true));
+                            if (container.scrollHeight > getAvailableHeight(container)) {
+                                currentTable.removeChild(currentTable.lastChild);
+                                pageNum++;
+                                container = getNextPageContainer(pageNum);
+                                currentTable = el.cloneNode(false);
+                                currentTable.innerHTML = '';
+                                container.appendChild(currentTable);
+                                currentTable.appendChild(row.cloneNode(true));
+                            }
+                        }
+                        break;
+                    } else {
+                        // For tables, images, etc., move whole element to next page
+                        pageNum++;
+                        container = getNextPageContainer(pageNum);
+                        container.appendChild(el);
+                        void container.offsetHeight; // Force layout
+                        
+                        if (container.scrollHeight > getAvailableHeight(container)) {
+                             // If it STILL doesn't fit on a fresh page, it's just too big.
+                             // We'll leave it and stop to avoid infinite loops.
+                             break;
+                        }
+                    }
+                }
+            }
+        }
+
+        function getNextPageContainer(pageNum) {
+            if (pageNum === 2) {
+                return document.querySelector('#page-2 .content-zone-mini');
+            } else {
+                const newPage = createContinuationPage(pageNum);
+                return newPage.querySelector('.content-zone-mini');
+            }
+        }
+
+        function senseMetadata(textLines) {
+            const fullText = textLines.join(' ');
+            let sensedRef = '';
+            let sensedDate = '';
+            
+            // NLP-based sensing if available
+            if (window.nlp) {
+                const doc = nlp(fullText);
+                
+                // Try to find reference numbers using more advanced patterns
+                const possibleRefs = doc.match('#Alphanumeric+').out('array');
+                for (const r of possibleRefs) {
+                    if (r.includes('/') && r.length > 5) { sensedRef = r; break; }
+                }
+
+                // Find dates
+                const dates = doc.dates().out('array');
+                if (dates.length > 0) sensedDate = dates[0];
+            }
+
+            // Fallback to regex
+            const refPatterns = [
+                /\b(SFD\/[\w\/]+)\b/i,
+                /\bREF\b\s*[:\-\.]?\s*([\w\-\/\d]+)/i,
+                /\bREFERENCE\b\s*[:\-\.]?\s*([\w\-\/\d]+)/i
+            ];
+            
+            const datePatterns = [
+                /\b(\d{1,2}(st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})\b/i,
+                /\b((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(st|nd|rd|th)?,\s+\d{4})\b/i,
+                /\b(\d{4}-\d{2}-\d{2})\b/
+            ];
+
+            if (!sensedRef) {
+                for (const line of textLines) {
+                    for (const pattern of refPatterns) {
+                        const match = line.match(pattern);
+                        if (match) { sensedRef = match[1] || match[0]; break; }
+                    }
+                    if (sensedRef) break;
+                }
+            }
+
+            if (!sensedDate) {
+                for (const line of textLines) {
+                    for (const pattern of datePatterns) {
+                        const match = line.match(pattern);
+                        if (match) { sensedDate = match[1] || match[0]; break; }
+                    }
+                    if (sensedDate) break;
+                }
+            }
+
+            return { sensedRef, sensedDate };
+        }
+
+        function runSmartAnalysis(text) {
+            if (!window.nlp || !text) return;
+            
+            const resultsDiv = document.getElementById('analysis-results');
+            const tagsDiv = document.getElementById('entity-tags');
+            if (!resultsDiv || !tagsDiv) return;
+
+            const doc = nlp(text);
+            let docSentiment = 'Neutral';
+            let docType = 'General Document';
+
+            // Document Type Detection
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes('invoice') || lowerText.includes('bill to')) docType = 'Invoice / Financial';
+            else if (lowerText.includes('memo') || lowerText.includes('memorandum')) docType = 'Internal Memo';
+            else if (lowerText.includes('board communication') || lowerText.includes('board meeting')) docType = 'Board Communication';
+            else if (lowerText.includes('contract') || lowerText.includes('agreement')) docType = 'Legal Contract';
+            else if (lowerText.includes('proposal')) docType = 'Business Proposal';
+            else if (lowerText.includes('application')) docType = 'Application Letter';
+
+            currentDocumentType = docType;
+            
+            // Update Ribbon Text across all pages
+            document.querySelectorAll('.ribbon span').forEach(span => {
+                span.textContent = docType === 'General Document' ? 'Official Document' : docType;
+            });
+
+            // Sentiment Detection (Simple)
+            const positiveWords = ['pleased', 'happy', 'thank', 'appreciate', 'success', 'great'];
+            const negativeWords = ['regret', 'sorry', 'unfortunate', 'issue', 'complaint', 'fail'];
+            
+            let posCount = positiveWords.filter(w => lowerText.includes(w)).length;
+            let negCount = negativeWords.filter(w => lowerText.includes(w)).length;
+            if (posCount > negCount) docSentiment = 'Positive / Formal';
+            else if (negCount > posCount) docSentiment = 'Serious / Urgent';
+
+            if (subjectStatus) {
+                subjectStatus.textContent = `Sense: ${docType} (${docSentiment})`;
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            }
+
+            resultsDiv.innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>Type:</strong> ${docType}</div>
+                <div style="margin-bottom: 8px;"><strong>Tone:</strong> ${docSentiment}</div>
+                <div style="margin-bottom: 8px;"><strong>Complexity:</strong> ${text.split(' ').length > 200 ? 'High' : 'Low'}</div>
+                <div style="font-size: 10px; color: var(--gold-primary); margin-top: 5px;">* Content analyzed by Skillforge Intelligence</div>
+            `;
+
+            // Entity Extraction
+            tagsDiv.innerHTML = '';
+            const people = doc.people().out('array').slice(0, 3);
+            const places = doc.places().out('array').slice(0, 3);
+            const orgs = doc.organizations().out('array').slice(0, 3);
+
+            [...people, ...places, ...orgs].forEach(entity => {
+                const tag = document.createElement('span');
+                tag.style.background = 'rgba(201,162,39,0.2)';
+                tag.style.border = '1px solid var(--gold-primary)';
+                tag.style.color = 'var(--gold-bright)';
+                tag.style.padding = '2px 8px';
+                tag.style.borderRadius = '4px';
+                tag.style.fontSize = '9px';
+                tag.textContent = entity;
+                tagsDiv.appendChild(tag);
+            });
+
+            // Update QR Code with some intelligence
+            generateDynamicQRCode(docType, docSentiment);
+        }
+
+        function generateDynamicQRCode(type, tone) {
+            const ref = document.getElementById('refInput').value || 'SFD/TEMP/2026';
+            const verificationURL = `https://skillforgedigital.com.ng/?ref=${encodeURIComponent(ref)}&type=${encodeURIComponent(type)}&tone=${encodeURIComponent(tone)}`;
+            
+            // Update all QR code containers across all pages
+            document.querySelectorAll('.dynamic-qrcode').forEach(container => {
+                if (container) {
+                    container.innerHTML = '';
+                    new QRCode(container, {
+                        text: verificationURL,
+                        width: 80,
+                        height: 80,
+                        colorDark : "#020c1b",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                }
+            });
+        }
+
+        async function processAndPrint() {
+            showLoading('Preparing Document...');
+
+            try {
+                let ref = refInput.value.trim();
+                if (!ref) {
+                    ref = prompt('Reference Number:', 'SFD/____/2026');
+                    if (ref) refInput.value = ref;
+                }
+
+                resetDocument();
+                document.getElementById('ref-number').textContent = ref || 'SFD/____/2026';
+                document.getElementById('issue-date').textContent = getMenuDate();
+
+                let finalElements = [];
+                const subjectOverride = subjectInput.value.trim();
+
+                // Define flattenNodes in a higher scope to be accessible by all parsers
+                function flattenNodes(nodeList, target) {
+                    Array.from(nodeList).forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            if (node.textContent.trim()) {
+                                const p = document.createElement('p');
+                                p.innerHTML = node.textContent;
+                                target.push(p);
+                            }
+                            return;
+                        }
+                        if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+                        const tag = node.tagName.toLowerCase();
+                        
+                        // If it's a generic container, unpack it. Don't keep the container itself.
+                        if (tag === 'div' || tag === 'span' || tag === 'section') {
+                             if (node.childNodes.length > 0) {
+                                flattenNodes(node.childNodes, target);
+                            }
+                        } else if (['p', 'table', 'ul', 'ol', 'img', 'h1', 'h2', 'h3', 'h4'].includes(tag)) {
+                            target.push(node);
+                        } else if (node.childNodes.length > 0) {
+                            // For other unknown wrappers, still try to unpack
+                            flattenNodes(node.childNodes, target);
+                        }
+                    });
+                }
+
+                if (currentTab === 'file') {
+                    const file = docxFileInput.files[0];
+                    if (!file) throw new Error('Please select a file.');
+                    
+                    const fileName = file.name.toLowerCase();
+                    const arrayBuffer = await file.arrayBuffer();
+
+                    if (fileName.endsWith('.html')) {
+                        showLoading('Parsing HTML...');
+                        const text = await file.text();
+                        runSmartAnalysis(text);
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = text;
+                        const flatNodes = [];
+                        flattenNodes(tmp.childNodes, flatNodes);
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                        }
+                        flatNodes.forEach(node => {
+                            if (!node || !node.tagName) return;
+                            const tagName = node.tagName.toLowerCase();
+                            if (tagName === 'img' || node.querySelector('img')) {
+                                const img = node.querySelector('img') || node;
+                                const imgWrap = document.createElement('div');
+                                imgWrap.style.textAlign = 'center';
+                                imgWrap.style.margin = '20px 0';
+                                const newImg = document.createElement('img');
+                                newImg.src = img.src;
+                                newImg.style.maxWidth = '100%';
+                                newImg.style.maxHeight = '480px'; 
+                                newImg.style.objectFit = 'contain';
+                                imgWrap.appendChild(newImg);
+                                finalElements.push(imgWrap);
+                            } else {
+                                finalElements.push(createStyledElement(node.innerHTML, tagName));
+                            }
+                        });
+                    } else if (fileName.endsWith('.pdf')) {
+                        showLoading('Parsing PDF...');
+                        const paragraphs = await parsePdfToParagraphs(arrayBuffer);
+                        const fullText = paragraphs.join('\n');
+                        runSmartAnalysis(fullText);
+                        
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                        }
+                        paragraphs.forEach(p => finalElements.push(createStyledElement(p)));
+                    } else if (fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+                        showLoading('Running OCR...');
+                        const text = await parseImageToText(file);
+                        runSmartAnalysis(text);
+                        const lines = text.split('\n').filter(l => l.trim());
+                        
+                        let foundSubject = false;
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                            foundSubject = true;
+                        }
+
+                        lines.forEach(line => {
+                            if (isAllCapsLine(line) && !foundSubject) {
+                                finalElements.push(createSubjectLine(line));
+                                lastDetectedSubject = line;
+                                foundSubject = true;
+                            } else {
+                                finalElements.push(createStyledElement(line));
+                            }
+                        });
+                        updateSubjectStatus(lastDetectedSubject, subjectOverride);
+                    } else {
+                        showLoading('Parsing DOCX...');
+                        
+                        // Enhanced Mammoth options for images and deep parsing
+                        const options = {
+                            ignoreEmptyParagraphs: false,
+                            convertImage: mammoth.images.imgElement(function(image) {
+                                return image.read("base64").then(function(imageBuffer) {
+                                    return {
+                                        src: "data:" + image.contentType + ";base64," + imageBuffer
+                                    };
+                                });
+                            })
+                        };
+
+                        const result = await mammoth.convertToHtml({ arrayBuffer }, options);
+                        const rawText = result.value.replace(/<[^>]*>?/gm, ' ');
+                        runSmartAnalysis(rawText);
+
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = result.value;
+
+                        const flatNodes = [];
+                        flattenNodes(tmp.childNodes, flatNodes);
+                        
+                        let foundSubject = false;
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                            foundSubject = true;
+                        }
+
+                        flatNodes.forEach(node => {
+                            if (!node || !node.tagName) return;
+                            
+                            const text = node.textContent.trim();
+                            const tagName = node.tagName.toLowerCase();
+                            
+                            if (tagName === 'img' || node.querySelector('img')) {
+                                const img = node.querySelector('img') || node;
+                                const imgWrap = document.createElement('div');
+                                imgWrap.style.textAlign = 'center';
+                                imgWrap.style.margin = '20px 0';
+                                const newImg = document.createElement('img');
+                                newImg.src = img.src;
+                                newImg.style.maxWidth = '100%';
+                                // Safe height for Page 1 (540px total)
+                                newImg.style.maxHeight = '480px'; 
+                                newImg.style.objectFit = 'contain';
+                                imgWrap.appendChild(newImg);
+                                finalElements.push(imgWrap);
+                                return;
+                            }
+
+                            if (!text && tagName !== 'table' && tagName !== 'ul' && tagName !== 'ol') return;
+
+                            if (isAllCapsLine(text) && !foundSubject && tagName === 'p') {
+                                finalElements.push(createSubjectLine(text));
+                                lastDetectedSubject = text;
+                                foundSubject = true;
+                            } else {
+                                finalElements.push(createStyledElement(node.innerHTML, tagName));
+                            }
+                        });
+                        updateSubjectStatus(lastDetectedSubject, subjectOverride);
+                    }
+                } else {
+                    // Manual Input
+                    const to = document.getElementById('recipientInput').value.trim();
+                    const dear = document.getElementById('salutationInput').value.trim();
+                    const sub = document.getElementById('manualSubject').value.trim();
+                    const body = document.getElementById('bodyInput').value.trim();
+                    
+                    runSmartAnalysis(`${to} ${dear} ${sub} ${body}`);
+
+                    currentDocumentSubject = sub || 'Skillforge_Document';
+
+                    if (to) finalElements.push(createStyledElement('To: ' + to));
+                    if (dear) finalElements.push(createStyledElement(dear));
+                    if (sub) finalElements.push(createSubjectLine(sub));
+                    
+                    if (body) {
+                        body.split('\n').filter(p => p.trim()).forEach(p => {
+                            finalElements.push(createStyledElement(p.trim()));
+                        });
+                    }
+                }
+
+                if (finalElements.length === 0) throw new Error('No content detected.');
+
+                currentDocumentSubject = subjectOverride || lastDetectedSubject || 'Skillforge_Document';
+
+                // Collect multiple signatures
+                const uploadedSigs = [];
+                for (let i = 1; i <= 4; i++) {
+                    const sigFile = document.getElementById(`sig-file-${i}`);
+                    if (sigFile && sigFile.files[0]) {
+                        const reader = new FileReader();
+                        const sigPromise = new Promise(resolve => {
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsDataURL(sigFile.files[0]);
+                        });
+                        const sigSrc = await sigPromise;
+                        const sigName = document.getElementById(`sig-name-${i}`).value;
+                        const sigTitle = document.getElementById(`sig-title-${i}`).value;
+                        uploadedSigs.push({ src: sigSrc, name: sigName, title: sigTitle, used: false });
+                    }
+                }
+
+                // SMART SIGNATURE SENSING & PLACEMENT
+                const processedElements = [];
+                const faithfullyRegex = /\b(faithfully|sincerely|regards|yours truly)\b/i;
+                let sig1Placed = false;
+
+                for (let i = 0; i < finalElements.length; i++) {
+                    const el = finalElements[i];
+                    const text = el.textContent.trim();
+                    const cleanText = text.toLowerCase();
+                    let sigInjectedThisElement = false;
+
+                    // 0. ACCEPTANCE LINE INJECTION
+                    // Auto-inject a horizontal line before "ACCEPTANCE OF PROPOSAL" or similar headings
+                    if (cleanText.includes('acceptance') && (cleanText.includes('proposal') || cleanText.includes('offer')) && (isAllCapsLine(text) || cleanText.length < 50)) {
+                         const line = document.createElement('div');
+                         line.className = 'cont-line'; // Reuse existing gold line style
+                         line.style.margin = '30px 0 20px';
+                         processedElements.push(line);
+                    }
+
+                    // 1. SPECIFIC NAME MATCHING (Highest Priority)
+                    // Search for any of the 4 typed-in names in the document text
+                    for (let j = 0; j < uploadedSigs.length; j++) {
+                        const sig = uploadedSigs[j];
+                        if (!sig.used && sig.name && sig.name.length > 3) {
+                            // Match partial name (first + last) or full name, case insensitive
+                            // Split name into parts and ensure at least 2 parts match if multi-word
+                            const nameParts = sig.name.trim().split(/\s+/);
+                            const textParts = text.trim().split(/\s+/);
+                            
+                            let isMatch = false;
+                            if (nameParts.length > 1) {
+                                // For "Oluwatimilehin Joseph Alonge", match if "Oluwatimilehin" AND "Alonge" are present nearby
+                                const first = nameParts[0].toLowerCase();
+                                const last = nameParts[nameParts.length - 1].toLowerCase();
+                                if (cleanText.includes(first) && cleanText.includes(last)) isMatch = true;
+                            } else {
+                                if (cleanText.includes(sig.name.toLowerCase())) isMatch = true;
+                            }
+
+                            if (isMatch) {
+                                // Insert signature above this specific name match
+                                const sigEl = createSignatureElement(sig.src, sig.name, sig.title);
+                                processedElements.push(sigEl);
+                                sig.used = true;
+                                if (j === 0) sig1Placed = true;
+                                sigInjectedThisElement = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (sigInjectedThisElement) {
+                        // If we injected a signature, we usually want to skip adding the original text line 
+                        // IF the original line was just the name itself (to avoid duplication).
+                        // BUT, if the user wants the name typed out below the signature, we should keep it.
+                        // The `createSignatureElement` already adds the name in a styled way.
+                        // So, we should SKIP pushing `el` if it's just the name.
+                        // However, if the line contains other text, we might need to keep it.
+                        // For now, let's assume `createSignatureElement` replaces the typed name line.
+                        continue;
+                    }
+
+                    // 2. FALLBACK 1: Faithfully/Sincerely (Sig 1 only)
+                    // Logic: If we see "Sincerely,", we want the signature to appear AFTER this line, 
+                    // but BEFORE the next line (which is usually the name).
+                    if (!sig1Placed && uploadedSigs[0] && !uploadedSigs[0].used) {
+                        if (faithfullyRegex.test(cleanText)) {
+                            // Push the "Sincerely," line first
+                            processedElements.push(el);
+                            
+                            // Then push the signature immediately after
+                            const sigEl = createSignatureElement(uploadedSigs[0].src, uploadedSigs[0].name, uploadedSigs[0].title);
+                            processedElements.push(sigEl);
+                            
+                            uploadedSigs[0].used = true;
+                            sig1Placed = true;
+                            continue; // Move to next element
+                        }
+                    }
+
+                    // 3. FALLBACK 2: "Signature" keyword (Remaining unused sigs)
+                    if (cleanText.includes('signature') && !cleanText.includes('authorized signature')) {
+                        // Look for next unused signature starting from index 1 (Sig 2)
+                        let nextSig = null;
+                        for (let j = 1; j < uploadedSigs.length; j++) {
+                            if (!uploadedSigs[j].used) {
+                                nextSig = uploadedSigs[j];
+                                break;
+                            }
+                        }
+                        
+                        if (nextSig) {
+                            const sigEl = createSignatureElement(nextSig.src, nextSig.name, nextSig.title);
+                            processedElements.push(sigEl);
+                            nextSig.used = true;
+                            continue; 
+                        }
+                    }
+
+                    processedElements.push(el);
+                }
+
+                // Fallback: If Sig 1 wasn't placed by sensing, add all unused signatures at the end
+                const unusedSigs = uploadedSigs.filter(s => !s.used);
+                if (unusedSigs.length > 0) {
+                    const sigRow = document.createElement('div');
+                    sigRow.className = 'signatures-row';
+                    unusedSigs.forEach(sig => {
+                        sigRow.appendChild(createSignatureElement(sig.src, sig.name, sig.title));
+                    });
+                    processedElements.push(sigRow);
+                }
+
+                showLoading('Arranging Layout...');
+                await paginateContent(processedElements);
+                
+                document.title = currentDocumentSubject;
+                hideLoading();
+                toggleMenu(); // Close menu on success
+                
+            } catch (err) {
+                console.error('Process Error:', err);
+                alert('Error: ' + err.message);
+                hideLoading();
+            }
+        }
+
+        async function parsePdfToParagraphs(arrayBuffer) {
+            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+            const pdf = await loadingTask.promise;
+            let paragraphs = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const text = await page.getTextContent();
+                let lastY = -1;
+                let line = "";
+                const items = text.items.sort((a, b) => b.transform[5] - a.transform[5]);
+                items.forEach(item => {
+                    const str = item.str.trim();
+                    if (!str) return;
+                    const y = item.transform[5];
+                    if (lastY !== -1 && Math.abs(y - lastY) > 5) {
+                        if (line) paragraphs.push(line);
+                        line = str;
+                    } else {
+                        line += (line ? " " : "") + str;
+                    }
+                    lastY = y;
+                });
+                if (line) paragraphs.push(line);
+            }
+            return paragraphs;
+        }
+
+        async function parseImageToText(file) {
+            if (!window.Tesseract) throw new Error('OCR library missing');
+            const res = await Tesseract.recognize(file, 'eng', { 
+                logger: m => { 
+                    if (m.status && m.progress != null) {
+                        showLoading(`${m.status}: ${Math.round(m.progress * 100)}%`);
+                    } 
+                } 
+            });
+            return res.data && res.data.text ? res.data.text : '';
+        }
+
+        async function fetchImageBuffer(url) {
+            try {
+                const res = await fetch(url, { mode: 'cors', cache: 'no-cache' });
+                const buf = await res.arrayBuffer();
+                return buf;
+            } catch (e) {
+                console.error('Failed to fetch image buffer:', e);
+                return null;
+            }
+        }
+
+        async function exportDocx() {
+            showLoading('Generating Word Document...');
+            try {
+                const ref = (document.getElementById('ref-number')?.textContent || '').trim();
+                const date = (document.getElementById('issue-date')?.textContent || '').trim();
+                const logoUrl = 'https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png';
+                
+                // Collect content
+                const page1Container = document.querySelector('#page-1 .content-zone');
+                const subjectText = currentDocumentSubject || 'Subject';
+                
+                const allParas = Array.from(document.querySelectorAll('.content-zone p, .content-zone-mini p'))
+                    .filter(p => p.textContent.trim() !== subjectText)
+                    .map(p => p.textContent.trim())
+                    .filter(t => t);
+
+                const logoBuf = await fetchImageBuffer(logoUrl);
+                
+                // Fetch multiple signatures
+                const signatures = [];
+                for (let i = 1; i <= 4; i++) {
+                    const sigFile = document.getElementById(`sig-file-${i}`);
+                    if (sigFile && sigFile.files[0]) {
+                        const sigArrayBuffer = await sigFile.files[0].arrayBuffer();
+                        signatures.push({
+                            data: sigArrayBuffer,
+                            name: document.getElementById(`sig-name-${i}`).value,
+                            title: document.getElementById(`sig-title-${i}`).value
+                        });
+                    }
+                }
+
+                const headerChildren = [];
+                if (logoBuf) {
+                    headerChildren.push(new docx.Paragraph({ 
+                        children: [new docx.ImageRun({ data: logoBuf, transformation: { width: 60, height: 60 } })],
+                        alignment: docx.AlignmentType.CENTER
+                    }));
+                }
+                headerChildren.push(new docx.Paragraph({ 
+                    children: [new docx.TextRun({ text: 'Skillforge Digital', bold: true, size: 36, color: '020c1b' })],
+                    alignment: docx.AlignmentType.CENTER
+                }));
+                headerChildren.push(new docx.Paragraph({ 
+                    children: [new docx.TextRun({ text: '& Company Limited', bold: true, size: 20, color: 'c9a227' })],
+                    alignment: docx.AlignmentType.CENTER
+                }));
+
+                // SMART SIGNATURE SENSING & PLACEMENT FOR DOCX
+                const finalDocElements = [
+                    new docx.Paragraph({ children: [new docx.TextRun({ text: `Ref: ${ref}`, bold: true, size: 24 })] }),
+                    new docx.Paragraph({ children: [new docx.TextRun({ text: `Date: ${date}`, bold: true, size: 24 })], spacing: { after: 400 } }),
+                    new docx.Paragraph({ 
+                        children: [new docx.TextRun({ text: subjectText.toUpperCase(), bold: true, underline: {}, size: 28 })],
+                        spacing: { after: 300 }
+                    })
+                ];
+
+                const faithfullyRegex = /\b(faithfully|sincerely|regards|yours truly)\b/i;
+                let sig1Placed = false;
+
+                for (let i = 0; i < allParas.length; i++) {
+                    const text = allParas[i];
+                    const cleanText = text.toLowerCase();
+                    let sigInjectedThisElement = false;
+
+                    // 1. SPECIFIC NAME MATCHING (Highest Priority)
+                    for (let j = 0; j < signatures.length; j++) {
+                        const sig = signatures[j];
+                        if (!sig.used && sig.name && sig.name.length > 3) {
+                            const nameParts = sig.name.trim().split(/\s+/);
+                            let isMatch = false;
+                            
+                            if (nameParts.length > 1) {
+                                const first = nameParts[0].toLowerCase();
+                                const last = nameParts[nameParts.length - 1].toLowerCase();
+                                if (cleanText.includes(first) && cleanText.includes(last)) isMatch = true;
+                            } else {
+                                if (cleanText.includes(sig.name.toLowerCase())) isMatch = true;
+                            }
+
+                            if (isMatch) {
+                                finalDocElements.push(new docx.Paragraph({ 
+                                    children: [new docx.ImageRun({ data: sig.data, transformation: { width: 120, height: 60 } })],
+                                    spacing: { before: 200 }
+                                }));
+                                finalDocElements.push(new docx.Paragraph({ 
+                                    children: [new docx.TextRun({ text: sig.name || 'Authorized Signature', bold: true, size: 20 })]
+                                }));
+                                if (sig.title) {
+                                    finalDocElements.push(new docx.Paragraph({ 
+                                        children: [new docx.TextRun({ text: sig.title, italic: true, size: 18 })]
+                                    }));
+                                }
+                                sig.used = true;
+                                if (j === 0) sig1Placed = true;
+                                sigInjectedThisElement = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (sigInjectedThisElement) {
+                        continue;
+                    }
+
+                    // 2. FALLBACK 1: Faithfully/Sincerely (Sig 1 only)
+                    if (!sig1Placed && signatures[0] && !signatures[0].used) {
+                        if (faithfullyRegex.test(cleanText)) {
+                            finalDocElements.push(new docx.Paragraph({ 
+                                children: [new docx.TextRun({ text: text, size: 24 })],
+                                spacing: { after: 200 },
+                                alignment: docx.AlignmentType.JUSTIFY
+                            }));
+
+                            finalDocElements.push(new docx.Paragraph({ 
+                                children: [new docx.ImageRun({ data: signatures[0].data, transformation: { width: 120, height: 60 } })],
+                                spacing: { before: 200 }
+                            }));
+                            finalDocElements.push(new docx.Paragraph({ 
+                                children: [new docx.TextRun({ text: signatures[0].name || 'Authorized Signature', bold: true, size: 20 })]
+                            }));
+                            if (signatures[0].title) {
+                                finalDocElements.push(new docx.Paragraph({ 
+                                    children: [new docx.TextRun({ text: signatures[0].title, italic: true, size: 18 })]
+                                }));
+                            }
+                            signatures[0].used = true;
+                            sig1Placed = true;
+                            continue;
+                        }
+                    }
+
+                    // 3. FALLBACK 2: "Signature" keyword (Remaining unused sigs)
+                    if (cleanText.includes('signature') && !cleanText.includes('authorized signature')) {
+                        let nextSig = null;
+                        for (let j = 1; j < signatures.length; j++) {
+                            if (!signatures[j].used) {
+                                nextSig = signatures[j];
+                                break;
+                            }
+                        }
+                        
+                        if (nextSig) {
+                            finalDocElements.push(new docx.Paragraph({ 
+                                children: [new docx.ImageRun({ data: nextSig.data, transformation: { width: 120, height: 60 } })],
+                                spacing: { before: 200 }
+                            }));
+                            finalDocElements.push(new docx.Paragraph({ 
+                                children: [new docx.TextRun({ text: nextSig.name || 'Authorized Signature', bold: true, size: 20 })]
+                            }));
+                            if (nextSig.title) {
+                                finalDocElements.push(new docx.Paragraph({ 
+                                    children: [new docx.TextRun({ text: nextSig.title, italic: true, size: 18 })]
+                                }));
+                            }
+                            nextSig.used = true;
+                            continue; 
+                        }
+                    }
+
+                    finalDocElements.push(new docx.Paragraph({ 
+                        children: [new docx.TextRun({ text: text, size: 24 })],
+                        spacing: { after: 200 },
+                        alignment: docx.AlignmentType.JUSTIFY
+                    }));
+                }
+
+                // Fallback: If any sigs are STILL unused, add them at the end
+                const unusedSigs = signatures.filter(s => !s.used);
+                if (unusedSigs.length > 0) {
+                    const sigRows = [];
+                    for (let i = 0; i < unusedSigs.length; i += 2) {
+                        const sigPair = unusedSigs.slice(i, i + 2);
+                        const cells = sigPair.map(sig => new docx.TableCell({
+                            children: [
+                                new docx.Paragraph({ 
+                                    children: [new docx.ImageRun({ data: sig.data, transformation: { width: 120, height: 60 } })],
+                                    spacing: { before: 200 }
+                                }),
+                                new docx.Paragraph({ 
+                                    children: [new docx.TextRun({ text: sig.name || 'Authorized Signature', bold: true, size: 20 })]
+                                }),
+                                sig.title ? new docx.Paragraph({ 
+                                    children: [new docx.TextRun({ text: sig.title, italic: true, size: 18 })]
+                                }) : null
+                            ].filter(x => x),
+                            borders: { top: { style: 'none' }, bottom: { style: 'none' }, left: { style: 'none' }, right: { style: 'none' } },
+                            width: { size: 4500, type: docx.WidthType.DXA }
+                        }));
+                        sigRows.push(new docx.TableRow({ children: cells }));
+                    }
+                    
+                    finalDocElements.push(new docx.Table({
+                        rows: sigRows,
+                        width: { size: 100, type: docx.WidthType.PERCENTAGE },
+                        borders: { top: { style: 'none' }, bottom: { style: 'none' }, left: { style: 'none' }, right: { style: 'none' } }
+                    }));
+                }
+
+                const doc = new docx.Document({
+                    sections: [{
+                        properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
+                        headers: { default: new docx.Header({ children: headerChildren }) },
+                        footers: {
+                            default: new docx.Footer({
+                                children: [
+                                    new docx.Paragraph({ 
+                                        children: [new docx.TextRun({ text: '18, Fiyinfoluwa Crescent, Mowe, Ogun State, Nigeria | info@skillforgedigital.com.ng', size: 16 })],
+                                        alignment: docx.AlignmentType.CENTER
+                                    }),
+                                    new docx.Paragraph({ 
+                                        children: [new docx.TextRun({ text: 'Page ', size: 16 }), new docx.PageNumber()],
+                                        alignment: docx.AlignmentType.RIGHT
+                                    })
+                                ]
+                            })
+                        },
+                        children: finalDocElements
+                    }]
+                });
+
+                const blob = await docx.Packer.toBlob(doc);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${currentDocumentSubject.replace(/[^a-z0-9]/gi, '_')}.docx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+                hideLoading();
+            } catch (err) {
+                console.error(err);
+                alert('Export failed: ' + err.message);
+                hideLoading();
+            }
+        }
+
+        processBtn.addEventListener('click', processAndPrint);
+
+        function printPDF() {
+            const element = document.querySelector('.pages-wrapper');
+            const safeName = currentDocumentSubject.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            
+            // Temporary UI Cleanup for high-quality export
+            const controls = document.querySelector('.controls');
+            const labels = document.querySelectorAll('.page-label');
+            const toggle = document.querySelector('.floating-menu-toggle');
+            
+            if (controls) controls.style.display = 'none';
+            labels.forEach(l => l.style.display = 'none');
+            if (toggle) toggle.style.display = 'none';
+
+            const opt = {
+                margin: 0,
+                filename: `${safeName}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 2, // Slightly reduced scale for better stability
+                    useCORS: true, 
+                    letterRendering: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+                pagebreak: { mode: 'css', after: '.a4-page' } // Explicitly break after each page element
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore UI
+                if (controls) controls.style.display = 'flex';
+                labels.forEach(l => l.style.display = 'block');
+                if (toggle) toggle.style.display = 'flex';
+            });
+        }
+    </script>
+</body>
+</html>
+
+        body {
+            background: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 12, 27, 0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(201, 162, 39, 0.3);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 85px; /* Moved left to make room for toggle */
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(40px); /* Increased offset for smoother feel */
+        }
+
+        .ops-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--gold-metallic);
+            color: var(--navy-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 4000;
+            font-size: 24px;
+            border: 2px solid var(--gold-primary);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ops-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ops-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .floating-menu-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gold-metallic);
+            color: var(--navy-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 4000;
+            font-size: 24px;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-menu-toggle.active {
+            transform: rotate(45deg);
+            background: #ef4444; /* Red for close */
+            color: white;
+        }
+
+        .ui-hidden .controls, 
+        .ui-hidden .menu-panel {
+            display: none !important;
+        }
+
+        .btn {
+            background: var(--gold-metallic);
+            color: var(--navy-deep);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn.secondary {
+            background: var(--navy-royal);
+            color: var(--gold-bright);
+            border: 2px solid var(--gold-primary);
+        }
+
+        .menu-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            width: 350px;
+            max-height: calc(100vh - 120px);
+            background: var(--navy-royal);
+            border: 2px solid var(--gold-primary);
+            border-radius: 14px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            padding: 20px;
+            display: grid;
+            gap: 12px;
+            overflow-y: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-panel.hidden {
+            transform: translateX(120%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .menu-title {
+            color: var(--gold-bright);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .subject-status {
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #0f2340;
+            color: #cbd5e0;
+            border: 1px solid rgba(201,162,39,0.3);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .menu-tabs {
+            display: flex;
+            background: #0f2340;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: #cbd5e0;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--gold-primary);
+            color: var(--navy-deep);
+        }
+
+        .menu-group {
+            display: grid;
+            gap: 6px;
+        }
+
+        .menu-group label {
+            font-size: 10px;
+            color: #cbd5e0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .menu-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(201,162,39,0.4);
+            background: #0f2340;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(201,162,39,0.4);
+            background: #0f2340;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            resize: vertical;
+        }
+
+        .menu-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: grid; gap: 12px; }
+
+        @media print {
+            .controls, .menu-panel, .loading-overlay, .floating-menu-toggle, .help-modal { display: none !important; }
+        }
+
+        /* Help Modal */
+        .help-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 12, 27, 0.85);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .help-content {
+            background: var(--navy-royal);
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            color: #e2e8f0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .help-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--gold-bright);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .help-title {
+            color: var(--gold-bright);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold-primary);
+            padding-bottom: 10px;
+        }
+
+        .help-section {
+            margin-bottom: 25px;
+        }
+
+        .help-section h3 {
+            color: var(--gold-primary);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-section h3::before {
+            content: '✦';
+            font-size: 12px;
+        }
+
+        .help-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #cbd5e0;
+            margin-bottom: 10px;
+        }
+
+        .help-section ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .help-section li {
+            font-size: 13px;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            color: #cbd5e0;
+        }
+
+        .help-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold-primary);
+        }
+
+        .help-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(201, 162, 39, 0.2);
+        }
+
+        /* Pages Container */
+        .pages-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .page-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy-royal);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: -20px;
+        }
+
+        /* A4 Page */
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            min-height: 297mm;
+            max-height: 297mm;
+            background: #fefefe;
+            position: relative;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Watermarks */
+        .watermark-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0.10;
+            pointer-events: none;
+        }
+
+        .watermark-logo img {
+            width: 400px;
+            height: 400px;
+            object-fit: contain;
+        }
+
+        .watermark-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 80px;
+            font-weight: 700;
+            letter-spacing: 15px;
+            color: var(--navy-royal);
+            opacity: 0.04;
+            text-transform: uppercase;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ===== PAGE 1: FULL HEADER ===== */
+        .header-full {
+            position: relative;
+            height: 280px;
+            background: var(--navy-deep);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-full::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #fefefe;
+            clip-path: path('M0,70 C150,70 200,20 400,35 C600,50 700,0 900,30 C1100,60 1200,15 1400,45 C1600,75 1700,35 2100,70 L2100,90 L0,90 Z');
+        }
+
+        .gold-orbit {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            border: 2px solid rgba(201, 162, 39, 0.3);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(201, 162, 39, 0.1), transparent 70%);
+        }
+
+        .gold-vein-header {
+            position: absolute;
+            bottom: 55px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-metallic);
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 45px;
+            right: -45px;
+            background: var(--gold-metallic);
+            padding: 10px 0;
+            width: 220px;
+            transform: rotate(45deg);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            z-index: 20;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 38px;
+        }
+
+        .ribbon span {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--navy-deep);
+            text-transform: uppercase;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .header-content-full {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 35px 50px 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Big Logo */
+        .logo-big {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+            flex-shrink: 0;
+        }
+
+        .logo-big-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--gold-metallic);
+            padding: 5px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 4px 8px rgba(255,255,255,0.7), 0 0 0 3px rgba(201, 162, 39, 0.2);
+        }
+
+        .logo-big-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #0d1b2a 0%, #1b2838 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-big-inner img {
+            width: 125px;
+            height: auto;
+            filter: contrast(1.3) brightness(1.15) saturate(1.1) drop-shadow(0 5px 10px rgba(0,0,0,0.6));
+            transform: scale(1.05);
+            image-rendering: crisp-edges;
+        }
+
+        .shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 35%, rgba(255,255,255,0.5) 50%, transparent 65%);
+            animation: shine 5s infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .brand-text {
+            margin-left: 35px;
+            margin-top: 10px;
+        }
+
+        .brand-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: white;
+            line-height: 1.1;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        .brand-subtitle {
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            margin-top: 10px;
+            font-family: 'Inter', sans-serif;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .rc-badge {
+            display: inline-flex;
+            margin-top: 22px;
+            background: rgba(201, 162, 39, 0.25);
+            border: 2px solid rgba(201, 162, 39, 0.6);
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: var(--gold-bright);
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* ===== PAGE 2+: MINI HEADER ===== */
+        .header-mini {
+            position: relative;
+            height: 120px;
+            background: var(--navy-deep);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-mini::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #fefefe;
+            clip-path: path('M0,40 C150,40 200,10 400,20 C600,30 700,0 900,18 C1100,35 1200,8 1400,25 C1600,42 1700,20 2100,40 L2100,50 L0,50 Z');
+        }
+
+        .gold-vein-mini {
+            position: absolute;
+            bottom: 35px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold-metallic);
+        }
+
+        .header-content-mini {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 25px 50px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-mini {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-mini {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gold-metallic);
+            padding: 3px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .logo-mini-inner {
+            width: 100%;
+            height: 100%;
+            background: var(--navy-royal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-mini-inner img {
+            width: 40px;
+            height: auto;
+            filter: contrast(1.2) brightness(1.1);
+        }
+
+        .brand-mini-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .brand-mini-text span {
+            display: block;
+            font-size: 12px;
+            color: var(--gold-bright);
+            letter-spacing: 5px;
+            font-family: 'Inter', sans-serif;
+            margin-top: 5px;
+        }
+
+        .page-badge {
+            background: rgba(201, 162, 39, 0.2);
+            border: 2px solid rgba(201, 162, 39, 0.5);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--gold-bright);
+            font-weight: 700;
+        }
+
+        /* ===== BODY ===== */
+        .body-full {
+            flex: 1;
+            padding: 50px 60px 40px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .body-mini {
+            flex: 1;
+            padding: 30px 60px 40px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .meta-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(201, 162, 39, 0.3);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .meta-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #4a5568;
+            font-weight: 700;
+        }
+
+        .meta-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17px;
+            color: var(--navy-royal);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .underline {
+            border-bottom: 3px solid var(--gold-primary);
+            padding-bottom: 5px;
+            display: inline-block;
+            min-width: 160px;
+        }
+
+        .continuation-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+        }
+
+        .cont-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+        }
+
+        .cont-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: #718096;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .content-zone, .content-zone-mini {
+            position: relative;
+            width: 100%;
+            flex: 1; /* Allow content to fill space */
+            overflow: hidden; /* Important for measurement */
+            min-height: 0; /* Required for flexbox to shrink */
         }
 
         .content-zone p, .content-zone-mini p, 
