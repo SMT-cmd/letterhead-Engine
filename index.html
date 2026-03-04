@@ -10,6 +10,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/docx@8.5.0/build/browser/docx.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="https://unpkg.com/compromise"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
@@ -71,10 +75,47 @@
         .controls {
             position: fixed;
             top: 20px;
-            right: 20px;
+            right: 85px; /* Moved left to make room for toggle */
             z-index: 1000;
             display: flex;
             gap: 10px;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(40px); /* Increased offset for smoother feel */
+        }
+
+        .ops-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--gold-metallic);
+            color: var(--navy-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 4000;
+            font-size: 24px;
+            border: 2px solid var(--gold-primary);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ops-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ops-toggle:active {
+            transform: scale(0.95);
         }
 
         .floating-menu-toggle {
@@ -86,7 +127,7 @@
             border-radius: 50%;
             background: var(--gold-metallic);
             color: var(--navy-deep);
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
@@ -94,6 +135,18 @@
             z-index: 4000;
             font-size: 24px;
             border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-menu-toggle.active {
+            transform: rotate(45deg);
+            background: #ef4444; /* Red for close */
+            color: white;
+        }
+
+        .ui-hidden .controls, 
+        .ui-hidden .menu-panel {
+            display: none !important;
         }
 
         .btn {
@@ -157,6 +210,20 @@
             text-transform: uppercase;
         }
 
+        .subject-status {
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #0f2340;
+            color: #cbd5e0;
+            border: 1px solid rgba(201,162,39,0.3);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
         .menu-tabs {
             display: flex;
             background: #0f2340;
@@ -177,6 +244,7 @@
             letter-spacing: 1px;
             cursor: pointer;
             border-radius: 6px;
+            white-space: nowrap;
         }
 
         .tab-btn.active {
@@ -358,6 +426,8 @@
         .a4-page {
             width: 210mm;
             height: 297mm;
+            min-height: 297mm;
+            max-height: 297mm;
             background: #fefefe;
             position: relative;
             box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
@@ -750,15 +820,17 @@
 
         .content-zone, .content-zone-mini {
             position: relative;
-            min-height: 500px;
+            width: 100%;
+            flex: 1; /* Allow content to fill space */
+            overflow: hidden; /* Important for measurement */
+            min-height: 0; /* Required for flexbox to shrink */
         }
 
-        .content-zone-mini {
-            position: relative;
-            min-height: 600px;
-        }
-
-        .content-zone p, .content-zone-mini p {
+        .content-zone p, .content-zone-mini p, 
+        .content-zone table, .content-zone-mini table, 
+        .content-zone ul, .content-zone-mini ul, 
+        .content-zone ol, .content-zone-mini ol,
+        .content-zone div, .content-zone-mini div {
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             font-weight: 500;
@@ -768,6 +840,7 @@
             text-align: justify;
             word-break: break-word;
             hyphens: auto;
+            flex-shrink: 0; /* Prevent squeezing */
         }
 
         .content-zone p.underline {
@@ -821,6 +894,7 @@
             background: var(--navy-deep);
             overflow: hidden;
             flex-shrink: 0;
+            margin-top: auto; /* Push to bottom of flex container */
         }
 
         .footer-main::before {
@@ -946,20 +1020,32 @@
         }
 
         @media print {
-            body { background: white; padding: 0; }
-            .controls, .menu-panel, .loading-overlay { display: none !important; }
+            body { background: white; padding: 0; margin: 0; }
+            .controls, .menu-panel, .loading-overlay, .floating-menu-toggle, .ops-toggle, .help-modal { display: none !important; }
             .page-label { display: none !important; }
+            .pages-wrapper { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
             .a4-page { 
-                box-shadow: none; 
-                page-break-after: always;
+                box-shadow: none !important; 
+                margin: 0 !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                display: flex !important; /* Keep internal layout */
+                float: none !important;
             }
-            .a4-page:last-child { page-break-after: auto; }
+            .a4-page:last-child { page-break-after: auto !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             @page { size: A4; margin: 0; }
         }
 
         /* Mobile Optimization */
+        .mobile-only-control {
+            display: none !important;
+        }
+
         @media screen and (max-width: 850px) {
+            .mobile-only-control {
+                display: flex !important;
+            }
             body {
                 padding: 10px;
                 background: #f1f5f9;
@@ -1033,15 +1119,23 @@
         <p id="loadingText">Processing Document...</p>
     </div>
 
+    <button class="ops-toggle" id="opsToggle" onclick="toggleControls()" title="Operations Menu">
+        <span>⚙</span>
+    </button>
+
+    <div class="controls hidden" id="controlsPanel">
+        <button class="btn secondary" onclick="toggleHelp()">How to Use</button>
+        <button class="btn" onclick="printPDF()">Print PDF</button>
+        <button class="btn" style="background: #2b6cb0; color: white;" onclick="exportDocx()">Export Word</button>
+        <button class="btn secondary" onclick="copyContent()">Copy Text</button>
+        <button class="btn secondary" onclick="shareDocument()">Share</button>
+        <button class="btn secondary" onclick="window.print()">Print View</button>
+        <button class="btn secondary" style="background: #ef4444; color: white; border: none;" onclick="toggleUI()">Hide UI</button>
+    </div>
+
     <button class="floating-menu-toggle" id="menuToggle" onclick="toggleMenu()">
         <span>☰</span>
     </button>
-
-    <div class="controls">
-        <button class="btn secondary" onclick="toggleHelp()">How to Use</button>
-        <button class="btn" onclick="printPDF()">Print PDF</button>
-        <button class="btn secondary" onclick="window.print()">Print View</button>
-    </div>
 
     <div id="menu-panel" class="menu-panel">
         <div class="menu-header">
@@ -1049,19 +1143,27 @@
             <button class="btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleMenu()">Close</button>
         </div>
 
+        <div id="subject-status" class="subject-status">Awaiting Source...</div>
+
         <div class="menu-tabs">
             <button class="tab-btn active" onclick="switchTab('file')">File Upload</button>
             <button class="tab-btn" onclick="switchTab('manual')">Manual Input</button>
+            <button class="tab-btn" onclick="switchTab('analysis')">Smart Sense</button>
+            <button class="tab-btn" onclick="switchTab('settings')">Settings</button>
         </div>
 
         <div id="file-tab" class="tab-content active">
             <div class="menu-group">
-                <label for="docxFile">Select .docx / .pdf</label>
-                <input id="docxFile" type="file" accept=".docx, .pdf" class="menu-input" />
+                <label for="docxFile">Select .docx / .pdf / .png / .jpg</label>
+                <input id="docxFile" type="file" accept=".docx, .pdf, image/*, .html" class="menu-input" />
             </div>
             <div class="menu-group">
                 <label for="subjectInput">Subject Override</label>
                 <input id="subjectInput" class="menu-input" placeholder="Optional" />
+            </div>
+            <div class="menu-group">
+                <label for="fileSignature">Upload Signature (Optional)</label>
+                <input id="fileSignature" type="file" accept="image/*" class="menu-input" />
             </div>
         </div>
 
@@ -1084,8 +1186,42 @@
                 <textarea id="bodyInput" class="menu-textarea" placeholder="Paste your content here..."></textarea>
             </div>
             <div class="menu-group">
-                <label for="signatureInput">Upload Signature (Optional)</label>
-                <input id="signatureInput" type="file" accept="image/*" class="menu-input" />
+                <label for="manualSignature">Upload Signature (Optional)</label>
+                <input id="manualSignature" type="file" accept="image/*" class="menu-input" />
+            </div>
+        </div>
+
+        <div id="analysis-tab" class="tab-content">
+            <div class="menu-group">
+                <label>Document Intelligence</label>
+                <div id="analysis-results" style="font-size: 11px; color: #cbd5e0; background: #0f2340; padding: 10px; border-radius: 8px; border: 1px solid rgba(201,162,39,0.2); min-height: 100px;">
+                    Awaiting content analysis...
+                </div>
+            </div>
+            <div class="menu-group">
+                <label>Detected Entities</label>
+                <div id="entity-tags" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                    <!-- Tags will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-tab" class="tab-content">
+            <div class="menu-group">
+                <label>Appearance Settings</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
+                    <input type="checkbox" id="showWatermark" checked onchange="updateAppearance()">
+                    <span style="font-size: 11px; color: #cbd5e0;">Show Watermark</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;" class="mobile-only-control">
+                    <button class="btn" style="padding: 4px 8px; font-size: 9px;" onclick="toggleMobileZoom()">Toggle Mobile Fit</button>
+                </div>
+            </div>
+            <div class="menu-group">
+                <label>Dynamic Footer Override</label>
+                <input id="footerAddress" class="menu-input" placeholder="Registered Address" oninput="updateFooterInfo()">
+                <input id="footerEmail" class="menu-input" placeholder="Email Address" oninput="updateFooterInfo()">
+                <input id="footerPhone" class="menu-input" placeholder="Phone Numbers" oninput="updateFooterInfo()">
             </div>
         </div>
 
@@ -1220,15 +1356,14 @@
                                 <div class="icon-gold">⌖</div>
                                 <div>
                                     <strong>Registered Address</strong>
-                                    18, Fiyinfoluwa Crescent, Mowe<br>
-                                    Ogun State, Nigeria
+                                    <span class="dynamic-address"></span>18, Fiyinfoluwa Crescent, Mowe<br>Ogun State, Nigeria</span>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <div class="icon-gold">✉</div>
                                 <div>
                                     <strong>Email</strong>
-                                    info@skillforgedigital.com.ng
+                                    <span class="dynamic-email">info@skillforgedigital.com.ng</span>
                                 </div>
                             </div>
                         </div>
@@ -1237,8 +1372,7 @@
                                 <div class="icon-gold">☎</div>
                                 <div>
                                     <strong>Telephone</strong>
-                                    +234 802 214 0329<br>
-                                    +234 912 876 1858
+                                    <span class="dynamic-phone">+234 802 214 0329<br>+234 912 876 1858</span>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -1251,8 +1385,8 @@
                         </div>
                     </div>
                     <div class="qr-wrap">
-                        <div class="qr-box">
-                            <img src="https://i.postimg.cc/zfc4kBVs/pmcxvu.png" alt="QR">
+                        <div class="qr-box dynamic-qrcode">
+                            <!-- Generated QR code will appear here -->
                         </div>
                         <div class="qr-label">Scan to Verify</div>
                     </div>
@@ -1314,15 +1448,14 @@
                                 <div class="icon-gold">⌖</div>
                                 <div>
                                     <strong>Registered Address</strong>
-                                    18, Fiyinfoluwa Crescent, Mowe<br>
-                                    Ogun State, Nigeria
+                                    <span class="dynamic-address"></span>18, Fiyinfoluwa Crescent, Mowe<br>Ogun State, Nigeria</span>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <div class="icon-gold">✉</div>
                                 <div>
                                     <strong>Email</strong>
-                                    info@skillforgedigital.com.ng
+                                    <span class="dynamic-email">info@skillforgedigital.com.ng</span>
                                 </div>
                             </div>
                         </div>
@@ -1331,8 +1464,7 @@
                                 <div class="icon-gold">☎</div>
                                 <div>
                                     <strong>Telephone</strong>
-                                    +234 802 214 0329<br>
-                                    +234 912 876 1858
+                                    <span class="dynamic-phone">+234 802 214 0329<br>+234 912 876 1858</span>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -1345,8 +1477,8 @@
                         </div>
                     </div>
                     <div class="qr-wrap">
-                        <div class="qr-box">
-                            <img src="https://i.postimg.cc/zfc4kBVs/pmcxvu.png" alt="QR">
+                        <div class="qr-box dynamic-qrcode">
+                            <!-- Generated QR code will appear here -->
                         </div>
                         <div class="qr-label">Scan to Verify</div>
                     </div>
@@ -1366,11 +1498,81 @@
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
         const menuPanel = document.getElementById('menu-panel');
-        const signatureInput = document.getElementById('signatureInput');
+        const fileSignatureInput = document.getElementById('fileSignature');
+        const manualSignatureInput = document.getElementById('manualSignature');
         const helpModal = document.getElementById('helpModal');
+        const subjectStatus = document.getElementById('subject-status');
+        const controlsPanel = document.getElementById('controlsPanel');
 
         let currentTab = 'file';
         let currentDocumentSubject = 'Skillforge_Document';
+        let lastDetectedSubject = '';
+        let currentDocumentType = 'Official Document';
+
+        function initDefaults() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            if (dateInput) dateInput.value = `${yyyy}-${mm}-${dd}`;
+            if (refInput) refInput.placeholder = `SFD/____/${yyyy}`;
+        }
+
+        function toggleUI() {
+            document.body.classList.toggle('ui-hidden');
+        }
+
+        function toggleControls() {
+            if (controlsPanel) {
+                controlsPanel.classList.toggle('hidden');
+                const toggle = document.getElementById('opsToggle');
+                if (toggle) {
+                    toggle.style.transform = controlsPanel.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+                }
+            }
+        }
+
+        async function copyContent() {
+            const body = document.getElementById('bodyInput').value;
+            if (!body) {
+                alert('No content to copy!');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(body);
+                alert('Letter body copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy: ' + err);
+            }
+        }
+
+        async function shareDocument() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: currentDocumentSubject,
+                        text: `Check out this ${currentDocumentType}: ${currentDocumentSubject}`,
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    console.log('Share failed:', err);
+                }
+            } else {
+                alert('Web Share API not supported in this browser. You can copy the URL instead.');
+            }
+        }
+
+        function toggleMobileZoom() {
+            document.querySelectorAll('.a4-page').forEach(page => {
+                if (page.style.transform === 'scale(1)') {
+                    page.style.transform = '';
+                    page.style.marginBottom = '';
+                } else {
+                    page.style.transform = 'scale(1)';
+                    page.style.marginBottom = '20px';
+                }
+            });
+        }
 
         function toggleHelp() {
             const isVisible = helpModal.style.display === 'flex';
@@ -1421,12 +1623,60 @@
             if (draft.tab) switchTab(draft.tab);
         }
 
-        // Auto-save on input
-        ['recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 'refInput', 'dateInput'].forEach(id => {
-            document.getElementById(id).addEventListener('input', saveDraft);
+        window.addEventListener('load', () => {
+            loadDraft();
+            initDefaults();
         });
 
-        window.addEventListener('load', loadDraft);
+        function updateSubjectStatus(detected, manual) {
+            if (!subjectStatus) return;
+            if (!detected && !manual) {
+                subjectStatus.textContent = 'Awaiting Source...';
+                subjectStatus.style.borderColor = 'rgba(201,162,39,0.3)';
+                return;
+            }
+            if (manual && detected) {
+                const match = manual.trim().toUpperCase() === detected.trim().toUpperCase();
+                subjectStatus.textContent = match ? 'Subject Status: Match ✓' : 'Subject Status: Mismatch ⚠';
+                subjectStatus.style.borderColor = match ? '#10b981' : '#f59e0b';
+            } else if (manual) {
+                subjectStatus.textContent = 'Subject Status: Manual Set';
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            } else {
+                subjectStatus.textContent = 'Subject Status: Auto-Detected';
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            }
+        }
+
+        // Auto-save on input
+        ['recipientInput', 'salutationInput', 'manualSubject', 'bodyInput', 'refInput', 'dateInput', 'subjectInput'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', () => {
+                    saveDraft();
+                    if (id === 'subjectInput' || id === 'manualSubject') {
+                        updateSubjectStatus(lastDetectedSubject, el.value);
+                    }
+                });
+            }
+        });
+
+        function updateAppearance() {
+            const showWM = document.getElementById('showWatermark').checked;
+            document.querySelectorAll('.watermark-logo, .watermark-text').forEach(el => {
+                el.style.display = showWM ? 'block' : 'none';
+            });
+        }
+
+        function updateFooterInfo() {
+            const addr = document.getElementById('footerAddress').value.trim();
+            const email = document.getElementById('footerEmail').value.trim();
+            const phone = document.getElementById('footerPhone').value.trim();
+
+            if (addr) document.querySelectorAll('.dynamic-address').forEach(el => el.innerHTML = addr.replace(/\n/g, '<br>'));
+            if (email) document.querySelectorAll('.dynamic-email').forEach(el => el.textContent = email);
+            if (phone) document.querySelectorAll('.dynamic-phone').forEach(el => el.innerHTML = phone.replace(/\n/g, '<br>'));
+        }
 
         function toggleMenu() {
             menuPanel.classList.toggle('hidden');
@@ -1440,9 +1690,15 @@
             if (tab === 'file') {
                 document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
                 document.getElementById('file-tab').classList.add('active');
-            } else {
+            } else if (tab === 'manual') {
                 document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
                 document.getElementById('manual-tab').classList.add('active');
+            } else if (tab === 'analysis') {
+                document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+                document.getElementById('analysis-tab').classList.add('active');
+            } else {
+                document.querySelector('.tab-btn:nth-child(4)').classList.add('active');
+                document.getElementById('settings-tab').classList.add('active');
             }
         }
 
@@ -1522,8 +1778,18 @@
         }
 
         function getAvailableHeight(container) {
-            const isPage1 = container.closest('#page-1') !== null;
-            return isPage1 ? 520 : 730; 
+            const page = container.closest('.a4-page');
+            if (!page) return 500; // Fallback
+
+            const isPage1 = page.id === 'page-1';
+            const headerHeight = isPage1 ? 280 : 120;
+            const footerHeight = 170;
+            const bodyPadding = isPage1 ? (50 + 40) : (30 + 40);
+            const metaBarHeight = isPage1 ? 62 : 0; // Approx height of meta-bar
+            const contBarHeight = isPage1 ? 0 : 71; // Approx height of continuation-bar
+
+            const totalHeight = 1122; // 297mm
+            return totalHeight - headerHeight - footerHeight - bodyPadding - metaBarHeight - contBarHeight;
         }
 
         function createStyledElement(content, type = 'p') {
@@ -1538,6 +1804,31 @@
             el.style.wordBreak = 'break-word';
             el.style.hyphens = 'auto';
 
+            if (type === 'table') {
+                el.style.width = '100%';
+                el.style.borderCollapse = 'collapse';
+                el.style.marginBottom = '20px';
+                el.style.fontSize = '14px';
+                el.innerHTML = content;
+                el.querySelectorAll('td, th').forEach(cell => {
+                    cell.style.border = '1px solid rgba(10, 25, 47, 0.2)';
+                    cell.style.padding = '8px';
+                });
+                return el;
+            }
+
+            if (type === 'ul' || type === 'ol') {
+                el.style.paddingLeft = '30px';
+                el.style.marginBottom = '20px';
+                el.innerHTML = content;
+                el.querySelectorAll('li').forEach(li => {
+                    li.style.marginBottom = '8px';
+                    li.style.listStyleType = type === 'ul' ? 'disc' : 'decimal';
+                    li.style.fontSize = '17px';
+                });
+                return el;
+            }
+
             // Support for basic bold/italic formatting (manual input)
             let formattedContent = content
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -1550,6 +1841,7 @@
                 el.style.color = 'var(--navy-deep)';
                 el.style.marginBottom = '18px';
                 el.style.textAlign = 'left';
+                el.style.fontSize = (28 - (parseInt(type.charAt(1)) * 2)) + 'px';
             }
 
             // Detection for Recipient, Salutation, and Lists
@@ -1559,11 +1851,28 @@
                 el.style.textAlign = 'left';
             }
 
+            // Memo specific sensing
+            if (cleanText.startsWith('memo') || cleanText.startsWith('memorandum') || cleanText.includes('board communication')) {
+                el.style.textAlign = 'center';
+                el.style.fontSize = '24px';
+                el.style.fontWeight = '800';
+                el.style.letterSpacing = '5px';
+                el.style.textTransform = 'uppercase';
+                el.style.borderBottom = '3px double var(--navy-royal)';
+                el.style.paddingBottom = '10px';
+            }
+
             // Simple List detection for manual input
             if (cleanText.startsWith('•') || cleanText.startsWith('-') || /^\d+\./.test(cleanText)) {
                 el.style.paddingLeft = '25px';
                 el.style.position = 'relative';
                 el.style.textAlign = 'left';
+            }
+
+            // Smart Sensing based on Document Type
+            if (currentDocumentType === 'Invoice / Financial') {
+                // Bold currency amounts
+                formattedContent = formattedContent.replace(/(\$|£|€|₦|USD|GBP|EUR|NGN)\s?(\d+(?:,\d+)*(?:\.\d+)?)/g, '<strong>$1$2</strong>');
             }
 
             el.innerHTML = formattedContent;
@@ -1592,48 +1901,269 @@
             
             for (let el of elements) {
                 container.appendChild(el);
+                
+                // Allow browser to catch up with layout
+                if (elements.indexOf(el) % 10 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+                
+                // Force layout calculation
+                void container.offsetHeight;
 
-                if (container.scrollHeight > getAvailableHeight(container)) {
+                while (container.scrollHeight > getAvailableHeight(container)) {
                     container.removeChild(el);
                     
-                    // If it's a paragraph, we split it word by word
-                    if (el.tagName.toLowerCase() === 'p') {
-                        const words = el.textContent.split(' ');
-                        let currentPara = createStyledElement('', 'p');
+                    const tag = el.tagName.toLowerCase();
+                    const isFirstElement = container.children.length <= 1; // only margin line exists
+                    const available = getAvailableHeight(container);
+                    const remaining = available - container.scrollHeight;
+
+                    // If it's an image or contains an image, try scaling it down to fit the current page
+                    if (tag === 'div' && el.querySelector('img')) {
+                        const img = el.querySelector('img');
+                        // If it's the first element on a fresh page, it must fit.
+                        // Otherwise, if it's not the first element, try to scale it to fit the REMAINING space.
+                        const targetHeight = isFirstElement ? available - 20 : remaining - 20;
+                        
+                        if (targetHeight > 100) { // Only scale if we have at least some space
+                            img.style.maxHeight = targetHeight + 'px';
+                            container.appendChild(el);
+                            if (container.scrollHeight <= available) break;
+                            container.removeChild(el);
+                        }
+                    }
+
+                    if (tag === 'p') {
+                        // For text-heavy elements, split by content
+                        const originalHTML = el.innerHTML;
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = originalHTML;
+                        
+                        let currentPara = createStyledElement('', tag);
                         container.appendChild(currentPara);
                         
-                        for (let word of words) {
-                            const prevText = currentPara.textContent;
-                            currentPara.textContent += (prevText ? ' ' : '') + word;
-                            
-                            if (container.scrollHeight > getAvailableHeight(container)) {
-                                currentPara.textContent = prevText;
-                                pageNum++;
-                                
-                                if (pageNum === 2) {
-                                    container = document.querySelector('#page-2 .content-zone-mini');
-                                } else {
-                                    const newPage = createContinuationPage(pageNum);
-                                    container = newPage.querySelector('.content-zone-mini');
+                        const nodes = Array.from(tempDiv.childNodes);
+                        for (let node of nodes) {
+                            if (node.nodeType === Node.TEXT_NODE) {
+                                const words = node.textContent.split(' ');
+                                for (let word of words) {
+                                    const prevHTML = currentPara.innerHTML;
+                                    currentPara.innerHTML += (prevHTML ? ' ' : '') + word;
+                                    
+                                    if (container.scrollHeight > getAvailableHeight(container)) {
+                                        currentPara.innerHTML = prevHTML;
+                                        pageNum++;
+                                        container = getNextPageContainer(pageNum);
+                                        currentPara = createStyledElement('', tag);
+                                        container.appendChild(currentPara);
+                                        currentPara.innerHTML = word;
+                                    }
                                 }
+                            } else {
+                                const prevHTML = currentPara.innerHTML;
+                                currentPara.appendChild(node.cloneNode(true));
                                 
-                                currentPara = createStyledElement(word, 'p');
-                                container.appendChild(currentPara);
+                                if (container.scrollHeight > getAvailableHeight(container)) {
+                                    currentPara.removeChild(currentPara.lastChild);
+                                    pageNum++;
+                                    container = getNextPageContainer(pageNum);
+                                    currentPara = createStyledElement('', tag);
+                                    container.appendChild(currentPara);
+                                    currentPara.appendChild(node.cloneNode(true));
+                                }
                             }
                         }
-                    } else {
-                        // For non-p elements, move the whole thing to next page
-                        pageNum++;
-                        if (pageNum === 2) {
-                            container = document.querySelector('#page-2 .content-zone-mini');
-                        } else {
-                            const newPage = createContinuationPage(pageNum);
-                            container = newPage.querySelector('.content-zone-mini');
+                        break; 
+                    } else if (tag === 'table') {
+                        // Special Table Splitting Logic
+                        const rows = Array.from(el.querySelectorAll('tr'));
+                        let currentTable = el.cloneNode(false);
+                        currentTable.innerHTML = '';
+                        container.appendChild(currentTable);
+                        
+                        for (let row of rows) {
+                            currentTable.appendChild(row.cloneNode(true));
+                            if (container.scrollHeight > getAvailableHeight(container)) {
+                                currentTable.removeChild(currentTable.lastChild);
+                                pageNum++;
+                                container = getNextPageContainer(pageNum);
+                                currentTable = el.cloneNode(false);
+                                currentTable.innerHTML = '';
+                                container.appendChild(currentTable);
+                                currentTable.appendChild(row.cloneNode(true));
+                            }
                         }
+                        break;
+                    } else {
+                        // For tables, images, etc., move whole element to next page
+                        pageNum++;
+                        container = getNextPageContainer(pageNum);
                         container.appendChild(el);
+                        void container.offsetHeight; // Force layout
+                        
+                        if (container.scrollHeight > getAvailableHeight(container)) {
+                             // If it STILL doesn't fit on a fresh page, it's just too big.
+                             // We'll leave it and stop to avoid infinite loops.
+                             break;
+                        }
                     }
                 }
             }
+        }
+
+        function getNextPageContainer(pageNum) {
+            if (pageNum === 2) {
+                return document.querySelector('#page-2 .content-zone-mini');
+            } else {
+                const newPage = createContinuationPage(pageNum);
+                return newPage.querySelector('.content-zone-mini');
+            }
+        }
+
+        function senseMetadata(textLines) {
+            const fullText = textLines.join(' ');
+            let sensedRef = '';
+            let sensedDate = '';
+            
+            // NLP-based sensing if available
+            if (window.nlp) {
+                const doc = nlp(fullText);
+                
+                // Try to find reference numbers using more advanced patterns
+                const possibleRefs = doc.match('#Alphanumeric+').out('array');
+                for (const r of possibleRefs) {
+                    if (r.includes('/') && r.length > 5) { sensedRef = r; break; }
+                }
+
+                // Find dates
+                const dates = doc.dates().out('array');
+                if (dates.length > 0) sensedDate = dates[0];
+            }
+
+            // Fallback to regex
+            const refPatterns = [
+                /\b(SFD\/[\w\/]+)\b/i,
+                /\bREF\b\s*[:\-\.]?\s*([\w\-\/\d]+)/i,
+                /\bREFERENCE\b\s*[:\-\.]?\s*([\w\-\/\d]+)/i
+            ];
+            
+            const datePatterns = [
+                /\b(\d{1,2}(st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})\b/i,
+                /\b((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(st|nd|rd|th)?,\s+\d{4})\b/i,
+                /\b(\d{4}-\d{2}-\d{2})\b/
+            ];
+
+            if (!sensedRef) {
+                for (const line of textLines) {
+                    for (const pattern of refPatterns) {
+                        const match = line.match(pattern);
+                        if (match) { sensedRef = match[1] || match[0]; break; }
+                    }
+                    if (sensedRef) break;
+                }
+            }
+
+            if (!sensedDate) {
+                for (const line of textLines) {
+                    for (const pattern of datePatterns) {
+                        const match = line.match(pattern);
+                        if (match) { sensedDate = match[1] || match[0]; break; }
+                    }
+                    if (sensedDate) break;
+                }
+            }
+
+            return { sensedRef, sensedDate };
+        }
+
+        function runSmartAnalysis(text) {
+            if (!window.nlp || !text) return;
+            
+            const resultsDiv = document.getElementById('analysis-results');
+            const tagsDiv = document.getElementById('entity-tags');
+            if (!resultsDiv || !tagsDiv) return;
+
+            const doc = nlp(text);
+            let docSentiment = 'Neutral';
+            let docType = 'General Document';
+
+            // Document Type Detection
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes('invoice') || lowerText.includes('bill to')) docType = 'Invoice / Financial';
+            else if (lowerText.includes('memo') || lowerText.includes('memorandum')) docType = 'Internal Memo';
+            else if (lowerText.includes('board communication') || lowerText.includes('board meeting')) docType = 'Board Communication';
+            else if (lowerText.includes('contract') || lowerText.includes('agreement')) docType = 'Legal Contract';
+            else if (lowerText.includes('proposal')) docType = 'Business Proposal';
+            else if (lowerText.includes('application')) docType = 'Application Letter';
+
+            currentDocumentType = docType;
+            
+            // Update Ribbon Text across all pages
+            document.querySelectorAll('.ribbon span').forEach(span => {
+                span.textContent = docType === 'General Document' ? 'Official Document' : docType;
+            });
+
+            // Sentiment Detection (Simple)
+            const positiveWords = ['pleased', 'happy', 'thank', 'appreciate', 'success', 'great'];
+            const negativeWords = ['regret', 'sorry', 'unfortunate', 'issue', 'complaint', 'fail'];
+            
+            let posCount = positiveWords.filter(w => lowerText.includes(w)).length;
+            let negCount = negativeWords.filter(w => lowerText.includes(w)).length;
+            if (posCount > negCount) docSentiment = 'Positive / Formal';
+            else if (negCount > posCount) docSentiment = 'Serious / Urgent';
+
+            if (subjectStatus) {
+                subjectStatus.textContent = `Sense: ${docType} (${docSentiment})`;
+                subjectStatus.style.borderColor = 'var(--gold-primary)';
+            }
+
+            resultsDiv.innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>Type:</strong> ${docType}</div>
+                <div style="margin-bottom: 8px;"><strong>Tone:</strong> ${docSentiment}</div>
+                <div style="margin-bottom: 8px;"><strong>Complexity:</strong> ${text.split(' ').length > 200 ? 'High' : 'Low'}</div>
+                <div style="font-size: 10px; color: var(--gold-primary); margin-top: 5px;">* Content analyzed by Skillforge Intelligence</div>
+            `;
+
+            // Entity Extraction
+            tagsDiv.innerHTML = '';
+            const people = doc.people().out('array').slice(0, 3);
+            const places = doc.places().out('array').slice(0, 3);
+            const orgs = doc.organizations().out('array').slice(0, 3);
+
+            [...people, ...places, ...orgs].forEach(entity => {
+                const tag = document.createElement('span');
+                tag.style.background = 'rgba(201,162,39,0.2)';
+                tag.style.border = '1px solid var(--gold-primary)';
+                tag.style.color = 'var(--gold-bright)';
+                tag.style.padding = '2px 8px';
+                tag.style.borderRadius = '4px';
+                tag.style.fontSize = '9px';
+                tag.textContent = entity;
+                tagsDiv.appendChild(tag);
+            });
+
+            // Update QR Code with some intelligence
+            generateDynamicQRCode(docType, docSentiment);
+        }
+
+        function generateDynamicQRCode(type, tone) {
+            const ref = document.getElementById('refInput').value || 'SFD/TEMP/2026';
+            const verificationURL = `https://skillforgedigital.com.ng/?ref=${encodeURIComponent(ref)}&type=${encodeURIComponent(type)}&tone=${encodeURIComponent(tone)}`;
+            
+            // Update all QR code containers across all pages
+            document.querySelectorAll('.dynamic-qrcode').forEach(container => {
+                if (container) {
+                    container.innerHTML = '';
+                    new QRCode(container, {
+                        text: verificationURL,
+                        width: 80,
+                        height: 80,
+                        colorDark : "#020c1b",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                }
+            });
         }
 
         async function processAndPrint() {
@@ -1653,46 +2183,168 @@
                 let finalElements = [];
                 const subjectOverride = subjectInput.value.trim();
 
+                // Define flattenNodes in a higher scope to be accessible by all parsers
+                function flattenNodes(nodeList, target) {
+                    Array.from(nodeList).forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            if (node.textContent.trim()) {
+                                const p = document.createElement('p');
+                                p.innerHTML = node.textContent;
+                                target.push(p);
+                            }
+                            return;
+                        }
+                        if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+                        const tag = node.tagName.toLowerCase();
+                        
+                        // If it's a generic container, unpack it. Don't keep the container itself.
+                        if (tag === 'div' || tag === 'span' || tag === 'section') {
+                             if (node.childNodes.length > 0) {
+                                flattenNodes(node.childNodes, target);
+                            }
+                        } else if (['p', 'table', 'ul', 'ol', 'img', 'h1', 'h2', 'h3', 'h4'].includes(tag)) {
+                            target.push(node);
+                        } else if (node.childNodes.length > 0) {
+                            // For other unknown wrappers, still try to unpack
+                            flattenNodes(node.childNodes, target);
+                        }
+                    });
+                }
+
                 if (currentTab === 'file') {
                     const file = docxFileInput.files[0];
                     if (!file) throw new Error('Please select a file.');
                     
-                    currentDocumentSubject = subjectOverride || file.name.split('.')[0];
-
+                    const fileName = file.name.toLowerCase();
                     const arrayBuffer = await file.arrayBuffer();
-                    if (file.name.toLowerCase().endsWith('.pdf')) {
+
+                    if (fileName.endsWith('.html')) {
+                        showLoading('Parsing HTML...');
+                        const text = await file.text();
+                        runSmartAnalysis(text);
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = text;
+                        const flatNodes = [];
+                        flattenNodes(tmp.childNodes, flatNodes);
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                        }
+                        flatNodes.forEach(node => {
+                            if (!node || !node.tagName) return;
+                            const tagName = node.tagName.toLowerCase();
+                            if (tagName === 'img' || node.querySelector('img')) {
+                                const img = node.querySelector('img') || node;
+                                const imgWrap = document.createElement('div');
+                                imgWrap.style.textAlign = 'center';
+                                imgWrap.style.margin = '20px 0';
+                                const newImg = document.createElement('img');
+                                newImg.src = img.src;
+                                newImg.style.maxWidth = '100%';
+                                newImg.style.maxHeight = '480px'; 
+                                newImg.style.objectFit = 'contain';
+                                imgWrap.appendChild(newImg);
+                                finalElements.push(imgWrap);
+                            } else {
+                                finalElements.push(createStyledElement(node.innerHTML, tagName));
+                            }
+                        });
+                    } else if (fileName.endsWith('.pdf')) {
+                        showLoading('Parsing PDF...');
                         const paragraphs = await parsePdfToParagraphs(arrayBuffer);
+                        const fullText = paragraphs.join('\n');
+                        runSmartAnalysis(fullText);
+                        
                         if (subjectOverride) {
                             finalElements.push(createSubjectLine(subjectOverride));
                         }
                         paragraphs.forEach(p => finalElements.push(createStyledElement(p)));
-                    } else {
-                        const result = await mammoth.convertToHtml({ arrayBuffer });
-                        const tmp = document.createElement('div');
-                        tmp.innerHTML = result.value;
+                    } else if (fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+                        showLoading('Running OCR...');
+                        const text = await parseImageToText(file);
+                        runSmartAnalysis(text);
+                        const lines = text.split('\n').filter(l => l.trim());
                         
-                        const nodes = Array.from(tmp.children);
                         let foundSubject = false;
-                        
                         if (subjectOverride) {
                             finalElements.push(createSubjectLine(subjectOverride));
                             foundSubject = true;
                         }
 
-                        nodes.forEach(node => {
-                            const text = node.textContent.trim();
-                            if (!text) return;
-
-                            if (isAllCapsLine(text)) {
-                                if (!foundSubject) {
-                                    finalElements.push(createSubjectLine(text));
-                                    currentDocumentSubject = text;
-                                    foundSubject = true;
-                                }
+                        lines.forEach(line => {
+                            if (isAllCapsLine(line) && !foundSubject) {
+                                finalElements.push(createSubjectLine(line));
+                                lastDetectedSubject = line;
+                                foundSubject = true;
                             } else {
-                                finalElements.push(createStyledElement(node.innerHTML, node.tagName.toLowerCase()));
+                                finalElements.push(createStyledElement(line));
                             }
                         });
+                        updateSubjectStatus(lastDetectedSubject, subjectOverride);
+                    } else {
+                        showLoading('Parsing DOCX...');
+                        
+                        // Enhanced Mammoth options for images and deep parsing
+                        const options = {
+                            ignoreEmptyParagraphs: false,
+                            convertImage: mammoth.images.imgElement(function(image) {
+                                return image.read("base64").then(function(imageBuffer) {
+                                    return {
+                                        src: "data:" + image.contentType + ";base64," + imageBuffer
+                                    };
+                                });
+                            })
+                        };
+
+                        const result = await mammoth.convertToHtml({ arrayBuffer }, options);
+                        const rawText = result.value.replace(/<[^>]*>?/gm, ' ');
+                        runSmartAnalysis(rawText);
+
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = result.value;
+
+                        const flatNodes = [];
+                        flattenNodes(tmp.childNodes, flatNodes);
+                        
+                        let foundSubject = false;
+                        if (subjectOverride) {
+                            finalElements.push(createSubjectLine(subjectOverride));
+                            foundSubject = true;
+                        }
+
+                        flatNodes.forEach(node => {
+                            if (!node || !node.tagName) return;
+                            
+                            const text = node.textContent.trim();
+                            const tagName = node.tagName.toLowerCase();
+                            
+                            if (tagName === 'img' || node.querySelector('img')) {
+                                const img = node.querySelector('img') || node;
+                                const imgWrap = document.createElement('div');
+                                imgWrap.style.textAlign = 'center';
+                                imgWrap.style.margin = '20px 0';
+                                const newImg = document.createElement('img');
+                                newImg.src = img.src;
+                                newImg.style.maxWidth = '100%';
+                                // Safe height for Page 1 (540px total)
+                                newImg.style.maxHeight = '480px'; 
+                                newImg.style.objectFit = 'contain';
+                                imgWrap.appendChild(newImg);
+                                finalElements.push(imgWrap);
+                                return;
+                            }
+
+                            if (!text && tagName !== 'table' && tagName !== 'ul' && tagName !== 'ol') return;
+
+                            if (isAllCapsLine(text) && !foundSubject && tagName === 'p') {
+                                finalElements.push(createSubjectLine(text));
+                                lastDetectedSubject = text;
+                                foundSubject = true;
+                            } else {
+                                finalElements.push(createStyledElement(node.innerHTML, tagName));
+                            }
+                        });
+                        updateSubjectStatus(lastDetectedSubject, subjectOverride);
                     }
                 } else {
                     // Manual Input
@@ -1700,6 +2352,8 @@
                     const dear = document.getElementById('salutationInput').value.trim();
                     const sub = document.getElementById('manualSubject').value.trim();
                     const body = document.getElementById('bodyInput').value.trim();
+                    
+                    runSmartAnalysis(`${to} ${dear} ${sub} ${body}`);
 
                     currentDocumentSubject = sub || 'Skillforge_Document';
 
@@ -1716,12 +2370,15 @@
 
                 if (finalElements.length === 0) throw new Error('No content detected.');
 
+                currentDocumentSubject = subjectOverride || lastDetectedSubject || 'Skillforge_Document';
+
                 // Add Signature if present
-                if (signatureInput.files[0]) {
+                const sigInput = currentTab === 'file' ? fileSignatureInput : manualSignatureInput;
+                if (sigInput && sigInput.files[0]) {
                     const reader = new FileReader();
                     const sigPromise = new Promise(resolve => {
                         reader.onload = (e) => resolve(e.target.result);
-                        reader.readAsDataURL(signatureInput.files[0]);
+                        reader.readAsDataURL(sigInput.files[0]);
                     });
                     const sigSrc = await sigPromise;
                     finalElements.push(createSignatureElement(sigSrc));
@@ -1735,6 +2392,7 @@
                 toggleMenu(); // Close menu on success
                 
             } catch (err) {
+                console.error('Process Error:', err);
                 alert('Error: ' + err.message);
                 hideLoading();
             }
@@ -1767,20 +2425,172 @@
             return paragraphs;
         }
 
+        async function parseImageToText(file) {
+            if (!window.Tesseract) throw new Error('OCR library missing');
+            const res = await Tesseract.recognize(file, 'eng', { 
+                logger: m => { 
+                    if (m.status && m.progress != null) {
+                        showLoading(`${m.status}: ${Math.round(m.progress * 100)}%`);
+                    } 
+                } 
+            });
+            return res.data && res.data.text ? res.data.text : '';
+        }
+
+        async function fetchImageBuffer(url) {
+            try {
+                const res = await fetch(url, { mode: 'cors', cache: 'no-cache' });
+                const buf = await res.arrayBuffer();
+                return buf;
+            } catch (e) {
+                console.error('Failed to fetch image buffer:', e);
+                return null;
+            }
+        }
+
+        async function exportDocx() {
+            showLoading('Generating Word Document...');
+            try {
+                const ref = (document.getElementById('ref-number')?.textContent || '').trim();
+                const date = (document.getElementById('issue-date')?.textContent || '').trim();
+                const logoUrl = 'https://i.postimg.cc/V679trv5/27f290a1_8b1f_4bbd_bacc_5b114d75533f_Edited.png';
+                
+                // Collect content
+                const page1Container = document.querySelector('#page-1 .content-zone');
+                const subjectText = currentDocumentSubject || 'Subject';
+                
+                const allParas = Array.from(document.querySelectorAll('.content-zone p, .content-zone-mini p'))
+                    .filter(p => p.textContent.trim() !== subjectText)
+                    .map(p => p.textContent.trim())
+                    .filter(t => t);
+
+                const logoBuf = await fetchImageBuffer(logoUrl);
+                
+                // Fetch Signature if available
+                let sigBuf = null;
+                const sigInput = currentTab === 'file' ? fileSignatureInput : manualSignatureInput;
+                if (sigInput && sigInput.files[0]) {
+                    const sigArrayBuffer = await sigInput.files[0].arrayBuffer();
+                    sigBuf = sigArrayBuffer;
+                }
+
+                const headerChildren = [];
+                if (logoBuf) {
+                    headerChildren.push(new docx.Paragraph({ 
+                        children: [new docx.ImageRun({ data: logoBuf, transformation: { width: 60, height: 60 } })],
+                        alignment: docx.AlignmentType.CENTER
+                    }));
+                }
+                headerChildren.push(new docx.Paragraph({ 
+                    children: [new docx.TextRun({ text: 'Skillforge Digital', bold: true, size: 36, color: '020c1b' })],
+                    alignment: docx.AlignmentType.CENTER
+                }));
+                headerChildren.push(new docx.Paragraph({ 
+                    children: [new docx.TextRun({ text: '& Company Limited', bold: true, size: 20, color: 'c9a227' })],
+                    alignment: docx.AlignmentType.CENTER
+                }));
+
+                const docChildren = [
+                    new docx.Paragraph({ children: [new docx.TextRun({ text: `Ref: ${ref}`, bold: true, size: 24 })] }),
+                    new docx.Paragraph({ children: [new docx.TextRun({ text: `Date: ${date}`, bold: true, size: 24 })], spacing: { after: 400 } }),
+                    new docx.Paragraph({ 
+                        children: [new docx.TextRun({ text: subjectText.toUpperCase(), bold: true, underline: {}, size: 28 })],
+                        spacing: { after: 300 }
+                    }),
+                    ...allParas.map(text => new docx.Paragraph({ 
+                        children: [new docx.TextRun({ text: text, size: 24 })],
+                        spacing: { after: 200 },
+                        alignment: docx.AlignmentType.JUSTIFY
+                    }))
+                ];
+
+                // Append signature to DOCX if present
+                if (sigBuf) {
+                    docChildren.push(new docx.Paragraph({ 
+                        children: [new docx.ImageRun({ data: sigBuf, transformation: { width: 120, height: 60 } })],
+                        spacing: { before: 400 }
+                    }));
+                    docChildren.push(new docx.Paragraph({ 
+                        children: [new docx.TextRun({ text: 'Authorized Signature', bold: true, size: 20 })]
+                    }));
+                }
+
+                const doc = new docx.Document({
+                    sections: [{
+                        properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
+                        headers: { default: new docx.Header({ children: headerChildren }) },
+                        footers: {
+                            default: new docx.Footer({
+                                children: [
+                                    new docx.Paragraph({ 
+                                        children: [new docx.TextRun({ text: '18, Fiyinfoluwa Crescent, Mowe, Ogun State, Nigeria | info@skillforgedigital.com.ng', size: 16 })],
+                                        alignment: docx.AlignmentType.CENTER
+                                    }),
+                                    new docx.Paragraph({ 
+                                        children: [new docx.TextRun({ text: 'Page ', size: 16 }), new docx.PageNumber()],
+                                        alignment: docx.AlignmentType.RIGHT
+                                    })
+                                ]
+                            })
+                        },
+                        children: docChildren
+                    }]
+                });
+
+                const blob = await docx.Packer.toBlob(doc);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${currentDocumentSubject.replace(/[^a-z0-9]/gi, '_')}.docx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+                hideLoading();
+            } catch (err) {
+                console.error(err);
+                alert('Export failed: ' + err.message);
+                hideLoading();
+            }
+        }
+
         processBtn.addEventListener('click', processAndPrint);
 
         function printPDF() {
             const element = document.querySelector('.pages-wrapper');
             const safeName = currentDocumentSubject.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            
+            // Temporary UI Cleanup for high-quality export
+            const controls = document.querySelector('.controls');
+            const labels = document.querySelectorAll('.page-label');
+            const toggle = document.querySelector('.floating-menu-toggle');
+            
+            if (controls) controls.style.display = 'none';
+            labels.forEach(l => l.style.display = 'none');
+            if (toggle) toggle.style.display = 'none';
+
             const opt = {
                 margin: 0,
-                filename: safeName + '.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                filename: `${safeName}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 2, // Slightly reduced scale for better stability
+                    useCORS: true, 
+                    letterRendering: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+                pagebreak: { mode: 'css', after: '.a4-page' } // Explicitly break after each page element
             };
-            html2pdf().set(opt).from(element).save();
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore UI
+                if (controls) controls.style.display = 'flex';
+                labels.forEach(l => l.style.display = 'block');
+                if (toggle) toggle.style.display = 'flex';
+            });
         }
     </script>
 </body>
